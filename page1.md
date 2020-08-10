@@ -1,7 +1,7 @@
 ---
 layout: page
-title: pagetitle
+title: Pyro Adventures
 nav: true
 ---
 
-# This is a test
+
