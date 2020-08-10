@@ -1,3 +1,7 @@
 <footer>
-  <p><small>Hosted on <a href="http://pages.github.com/">GitHub Pages</a> using the <a href="https://github.com/sodabrew/theme-dinky">Dinky theme</a> for <a href="http://jekyllbootstrap.com/">Jekyll Bootstrap</a></small></p>
+  {% if site.github.is_user_page %}
+    <ul>
+      <li><a class="buttons github" href="{{ site.github.owner_url }}">GitHub Profile</a></li>
+    </ul>
+  {% endif %}
 </footer>
