@@ -1,5 +1,5 @@
 ---
-title: Home
+layout: default
 ---
 
 This workshop will introduce the basics of using free hosting from GitHub Pages which is integrated with the popular static website generator Jekyll. 
