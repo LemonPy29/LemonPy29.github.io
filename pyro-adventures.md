@@ -6,4 +6,4 @@ nav: true
 
 
 The topics are
-* [Preliminaries]("pyro-adventures/preliminaries.html")
+* [Preliminaries]({{ "pyro-adventures/preliminaries.html" }})
