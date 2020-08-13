@@ -31,6 +31,6 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 <figure>
-  <img src="img/pizza_orders.png"/ class="center">
+  <img src="img/pizza_orders.png" class="center"/>
   <figcaption>Fig 1.</figcaption>
 </figure>
