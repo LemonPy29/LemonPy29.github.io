@@ -30,9 +30,10 @@ def pizza_orders(mu, p):
         correct_orders += pyro.sample('correct_order', dist.Bernoulli(p))
     return correct_orders
 ```
-<p align="center">
-    <figure>
-      <img src="img/pizza_orders.png"/>
-      <figcaption>Fig 1.</figcaption>
-    </figure>
-</p>
+
+<figure>
+  <p align="center">    
+    <img src="img/pizza_orders.png"/>
+    <figcaption>Fig 1.</figcaption>
+  </p>
+</figure>
