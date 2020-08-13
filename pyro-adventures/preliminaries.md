@@ -31,4 +31,4 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 
-$$P_{X_1+X_2}(s) = P_{X_1}(s)P_{X_2}(s)$$
+![Plot](img/pizza_orders.png)
