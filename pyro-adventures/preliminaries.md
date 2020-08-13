@@ -22,6 +22,6 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 
-```math
-SE = \frac{\sigma}{\sqrt{n}}
-```
+
+$$SE = \frac{\sigma}{\sqrt{n}}$$
+
