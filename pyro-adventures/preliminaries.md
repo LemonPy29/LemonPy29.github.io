@@ -22,4 +22,6 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 
-<img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg"/>
+<p align="center">
+    <img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg"/>
+</p>
