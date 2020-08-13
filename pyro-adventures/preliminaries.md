@@ -21,3 +21,7 @@ def pizza_orders(mu, p):
         correct_orders += pyro.sample('correct_order', dist.Bernoulli(p))
     return correct_orders
 ```
+
+```math
+SE = \frac{\sigma}{\sqrt{n}}
+```
