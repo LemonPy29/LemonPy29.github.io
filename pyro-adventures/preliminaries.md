@@ -31,11 +31,7 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 
-<figure>
-  <p align="center">    
-    <img src="img/pizza_orders.png"/>
-  </p>
-  <p align="center">
-    <figcaption>Fig 1.</figcaption>
-  </p>
+<figure>  
+   <img src="img/pizza_orders.png"/>
+   <figcaption>Fig 1.</figcaption>
 </figure>
