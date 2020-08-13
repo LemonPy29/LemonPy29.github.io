@@ -22,8 +22,8 @@ def pizza_orders(mu, p):
     return correct_orders
 ```
 
-<html>
+
 <p align="center">
-    <img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg?invert_in_darkmode&sanitize=true" align=middle width=71.56533615pt height=33.4857765pt/>
+    <img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg" align=middle width=71.56533615pt height=33.4857765pt/>
 </p>
-</html>
+
