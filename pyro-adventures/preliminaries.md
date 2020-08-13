@@ -11,7 +11,7 @@ The first chapter covers a lot of topics
 Suppose \\(\(X_n\)_{n\geq 1}\\) is a sequence of idd non-negative integers random variables and let \\(N\\) be a random non-negative integer too which is independent of the sequence. 
 
 The random sum is the process defined as 
-\\(S_N = X_1 + \cdots + X_N\\)
+\\[S_N = X_1 + \cdots + X_N\\]
 
 And the most substantial result in this section is
 \\[P_{S_N}(s) = P_N(P_{X_1}(s))\\]
@@ -20,7 +20,7 @@ In the next example we'll verify this restul empirically
 
 ### Example 1: Pizza Orders
 
-
+You're a drunk pizza delivery guy that has a \\(p\\) probability of handle the pizza to the correct address. The situation can be modeled by 
 
 ```python
 def pizza_orders(mu, p):
