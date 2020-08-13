@@ -8,8 +8,8 @@ nav: false
 The first chapter covers a lot of topics
 
 ## Random Sums
-
-### Pizza Orders
+Suppose \\( \(X_n\)_{n\geq 1}\\) are 
+### Example 1: Pizza Orders
 
 This is a test 
 
