@@ -21,3 +21,5 @@ def pizza_orders(mu, p):
         correct_orders += pyro.sample('correct_order', dist.Bernoulli(p))
     return correct_orders
 ```
+
+$$ P_{X_1+X_2}(s) = P_{X_1}(s)P{x_2}(s)$$
