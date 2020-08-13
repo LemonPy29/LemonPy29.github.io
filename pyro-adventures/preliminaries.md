@@ -23,5 +23,5 @@ def pizza_orders(mu, p):
 ```
 
 <p align="center">
-    <img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg"/>
+    <img src="/pyro-adventures/tex/6ac09cad3b60b5b2394b883654c56d45.svg"/ width="100">
 </p>
