@@ -34,6 +34,8 @@ def pizza_orders(mu, p):
 <figure>
   <p align="center">    
     <img src="img/pizza_orders.png"/>
+  </p>
+  <p align="center">
     <figcaption>Fig 1.</figcaption>
   </p>
 </figure>
