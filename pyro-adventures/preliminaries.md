@@ -8,7 +8,7 @@ nav: false
 The first chapter covers a lot of topics
 
 ## Random Sums
-Suppose \\(\(X_n\)_{n\geq 1}\\) is a sequence of idd non-negative integers random variables and let \\(N\\) be a random non-negative integer too which is independent of the sequence. 
+Suppose $\(X_n\)_{n\geq 1}$ is a sequence of idd non-negative integers random variables and let \\(N\\) be a random non-negative integer too which is independent of the sequence. 
 
 The random sum is the process defined as 
 \\[S_N = X_1 + \cdots + X_N\\]
@@ -33,6 +33,6 @@ def pizza_orders(mu, p):
 
 <figure>  
    <img src="img/pizza_orders.png"/>
-   <figcaption>Fig 1.</figcaption>
+   <figcaption>Fig 1. Pizza Orders</figcaption>
 </figure>
 
