@@ -14,7 +14,11 @@ The random sum is the process defined as
 \\[S_N = X_1 + \cdots + X_N\\]
 
 And the most substantial result in this section is
-\\[P_{S_N}(s) = P_N(P_{X_1}(s))\\]
+\\[
+\begin{align}
+P_{S_N}(s) = P_N(P_{X_1}(s))
+\end{align}
+\\]
 
 In the next example we'll verify this restul empirically
 
