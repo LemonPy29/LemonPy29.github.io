@@ -15,7 +15,7 @@ The random sum is the process defined as
 
 And the most substantial result in this section is
 \\[
-P_{S_N}(s) = P_N(P_{X_1}(s))\hspace{5cm}(1.1)
+P_{S_N}(s) = P_N(P_{X_1}(s))\hfill(1.1)
 \\]
 
 In the next example we'll verify this result empirically
