@@ -25,14 +25,14 @@ There are two properties we'll use across the section. From now on, when we talk
 
    The generating function of the random sum  
 
-\\(
+\\[
 S_N = X_1 + \cdots + X_N \tag{1.3}
-\\)
+\\]
 
 can be computed as
-\\(
+\\[
 P_{S_N}(s) = P_N(P_{X_1}(s)) \tag{1.4}
-\\)
+\\]
 Let's see an example with code
 
 ### Example 1: Pizza Orders 
@@ -68,7 +68,7 @@ class pizza_orders:
         return correct_orders
 ```
 
-Just a little note about the code. At first glance it seems unnecessary to put the `sample` method inside a class. I did it because in this way I don't need to pass the parameters $\mu$ and $p$ if another function call `sample` , just like in the chunk below.  
+Just a little note about the code. At first glance it seems unnecessary to put the `sample` method inside a class. I did it because in this way I don't need to pass the parameters \\(\mu\\) and $p$ if another function call `sample` , just like in the chunk below.  
 
 Using equation (1.4) it can be proved the distribution of `pizza_orders` is a Poisson with parameter \\(\mu\cdot p\\). Let's verify that by comparing the empirical cumulative distribution function of our model with the expected Poisson c.d.f. 
 
@@ -115,7 +115,7 @@ The plot show us `pizza_orders` has the expected behavior.
 
 ## Branching Process
 
-The branching process is a classical example of random sums. Imagine a population starts with one individual which have a \\(p_k\\) probability of splitting into $k$ offspring (There could be more than one, we'll talk more about that later). Each member of the new generation, also follow the same pattern of splitting. The process continues until there is no individuals to split, that is, until the population extinguish.
+The branching process is a classical example of random sums. Imagine a population starts with one individual which have a \\(p_k\\) probability of splitting into \\(k\\) offspring (There could be more than one, we'll talk more about that later). Each member of the new generation, also follow the same pattern of splitting. The process continues until there is no individuals to split, that is, until the population extinguish.
 
 Let's simulate the process 
 
@@ -141,20 +141,20 @@ class branching:
 
 One of the main reasons to study this process is to know whether the population disappear or not and what's the probability of that happen. 
 
-If $Z\sim (p_k)$ is the offspring distribution, with g.f $P$, it can be proved that the smallest solution of the equation
-$$
+If \\(Z\sim (p_k)\\) is the offspring distribution, with g.f \\(P\\), it can be proved that the smallest solution of the equation
+\\[
 P(s) = s \tag{1.5}
-$$
-is equal to the probability of extinction, whenever $E(Z) \geq 1$, and it's equal to $1$ otherwise.
+\\]
+is equal to the probability of extinction, whenever \\(E(Z) \geq 1\\), and it's equal to \\(1\\) otherwise.
 
 It's worth emphasizing that we need to stop the process at some point because either the population extinguish or explodes:
-$$
+\\[
 \textbf{P}(Z_n\rightarrow 0) = 1 - \textbf{P}(Z_n\rightarrow \infty) \tag{1.6}
-$$
-One question that arise from (1.6) is if we can compute a threshold of population that when is reached the process can't return and go to infinity no matter what. It turns out there is no such threshold: there is always a chance of extinction, but we can set a point when this probability is super small. For example, suppose the density comes from a binomial $b(2, .6)$. If at any step there are 10 individuals in the population then the probability of extinction is order of $10^{-8}$. How can you compute it? If there are $n$ individuals in one offspring, using the independency, the fact the individuals follows the same distribution and (1.2), the probability of extinction is the smallest solution of  
-$$
+\\]
+One question that arise from (1.6) is if we can compute a threshold of population that when is reached the process can't return and go to infinity no matter what. It turns out there is no such threshold: there is always a chance of extinction, but we can set a point when this probability is super small. For example, suppose the density comes from a binomial \\(b(2, .6)\\). If at any step there are 10 individuals in the population then the probability of extinction is order of \\(10^{-8}\\). How can you compute it? If there are \\(n\\) individuals in one offspring, using the independency, the fact the individuals follows the same distribution and (1.2), the probability of extinction is the smallest solution of  
+\\[
 P^n(s)=s \tag{1.7}
-$$
+\\]
 Now let's take a bunch of samples from our branching process and see how many of them goes to extinction
 
 ```python
@@ -177,6 +177,6 @@ print(results)
 {'extinction': 443, 'explode': 557}
 `
 
-According to (1.5), the extinction probability is approximately $0.44$. 
+According to (1.5), the extinction probability is approximately \\(0.44\\). 
 
 
