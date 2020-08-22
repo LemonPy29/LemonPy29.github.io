@@ -5,15 +5,12 @@
 
   <nav class="site-nav">
     <div class="trigger">
-      <ul>
-        {% for lesson in site.pages %}
-          {% if lesson.nav == true %}
-            <li>
-              <a class="page-link{% if page.url == lesson.url %} active{% endif %}" href="{{ lesson.url | absolute_url }}">{{ lesson.title | escape }}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
+      {% for lesson in site.pages %}
+        {% if lesson.nav == true %}
+          <a class="page-link{% if page.url == lesson.url %} active{% endif %}" href="{{ lesson.url | absolute_url }}">{{ lesson.title | escape }}</a>
+          <br>
+        {% endif %}
+      {% endfor %}
     </div>
   </nav>
   
