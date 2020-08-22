@@ -68,7 +68,7 @@ class pizza_orders:
         return correct_orders
 ```
 
-Just a little note about the code. At first glance it seems unnecessary to put the `sample` method inside a class. I did it because in this way I don't need to pass the parameters \\(\mu\\) and $p$ if another function call `sample` , just like in the chunk below.  
+Just a little note about the code. At first glance it seems unnecessary to put the `sample` method inside a class. I did it because in this way I don't need to pass the parameters \\(\mu\\) and \\(p\\) if another function call `sample` , just like in the chunk below.  
 
 Using equation (1.4) it can be proved the distribution of `pizza_orders` is a Poisson with parameter \\(\mu\cdot p\\). Let's verify that by comparing the empirical cumulative distribution function of our model with the expected Poisson c.d.f. 
 
@@ -85,7 +85,7 @@ Above we have a little wrapper to compute the ecdf for a `distribution` class wi
 ```python
 #set the distributions
 mu, p = 10, .4
-reference = poisson(mu*p)
+reference = poisson(mu * p)
 saturday_orders = pizza_orders(mu, p)
 
 #compute both cdf
