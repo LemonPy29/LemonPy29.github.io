@@ -15,31 +15,29 @@ P_X(s) = \sum_{j=0}^{\infty}a_js^j \tag{1.1}
 \\]
 There are two properties we'll use across the section. From now on, when we talk about a random variable we assume is non-negative and integer, unless we say the opposite.  
 
-1. Given $X_1, X_2$ independent random variables, the g.f of their sum follows
-   $$
+1. Given \\(X_1, X_2\\) independent random variables, the g.f of their sum follows
+   \\[
    P_{X_1+X_2}(s)=P_{X_1}(s)P_{X_2}(s) \tag{1.2}
-   $$
+   \\]
    It will allow us to understand the distribution of the sum in a very simple manner.
 
-2. 
-
-3. Suppose $(X_n)_{n\geq 1}$ is a sequence of idd non-negative integers random variables and $N$ a random non-negative integer which is independent of the sequence  too. 
+2. Suppose \\((X_n)_{n\geq 1}\\) is a sequence of idd random variables and \\(N\\) a random integer which is independent of the sequence too. 
 
    The generating function of the random sum  
 
-$$
+\\(
 S_N = X_1 + \cdots + X_N \tag{1.3}
-$$
+\\)
 
-​		can be computed as
-$$
+can be computed as
+\\(
 P_{S_N}(s) = P_N(P_{X_1}(s)) \tag{1.4}
-$$
+\\)
 Let's see an example with code
 
 ### Example 1: Pizza Orders 
 
-[*Harry Delivery Pizzas, p.16*] Harry works taking orders at a pizza restaurant. He suffer big hangovers on Saturdays, so he only have a $p$ probability of righting down the correct address when someone call. If there are Poisson $p(\mu)$ calls on Saturday. What is the distribution of the right delivered pizzas?
+[*Harry Delivery Pizzas, p.16*] Harry works taking orders at a pizza restaurant. He suffer big hangovers on Saturdays, so he only have a \\(p\\) probability of righting down the correct address when someone call. If there are Poisson \\(p(\mu)\\) calls on Saturday. What is the distribution of the right delivered pizzas?
 
 
 
@@ -54,7 +52,7 @@ import numpy as np
 pyro.set_rng_seed(308)
 ```
 
-This situation can be simply modeled by sampling $n$ times from a Bernoulli variable, where $n$ comes from the Poisson $p(\mu)$   
+This situation can be modeled by sampling \\(n\\) times from a Bernoulli variable, where \\(n\\) comes from the Poisson \\(p(\mu)\\)   
 
 ```python
 class pizza_orders:
@@ -72,7 +70,7 @@ class pizza_orders:
 
 Just a little note about the code. At first glance it seems unnecessary to put the `sample` method inside a class. I did it because in this way I don't need to pass the parameters $\mu$ and $p$ if another function call `sample` , just like in the chunk below.  
 
-Using equation (1.4) it can be proved the distribution of `pizza_orders` is a Poisson with parameter $\mu p $. Let's verify that by comparing the empirical cumulative distribution function of our model with the expected Poisson c.d.f. 
+Using equation (1.4) it can be proved the distribution of `pizza_orders` is a Poisson with parameter \\(\mu\cdot p\\). Let's verify that by comparing the empirical cumulative distribution function of our model with the expected Poisson c.d.f. 
 
 ```python
 def ecdf_gen(distribution, n): 
@@ -117,7 +115,7 @@ The plot show us `pizza_orders` has the expected behavior.
 
 ## Branching Process
 
-The branching process is a classical example of random sums. Imagine a population starts with one individual which have a $p_k$ probability of splitting into $k$ offspring (There could be more than one, we'll talk more about that later). Each member of the new generation, also follow the same pattern of splitting. The process continues until there is no individuals to split, that is, until the population extinguish.
+The branching process is a classical example of random sums. Imagine a population starts with one individual which have a \\(p_k\\) probability of splitting into $k$ offspring (There could be more than one, we'll talk more about that later). Each member of the new generation, also follow the same pattern of splitting. The process continues until there is no individuals to split, that is, until the population extinguish.
 
 Let's simulate the process 
 
@@ -175,9 +173,9 @@ for _ in range(1000):
 print(results)
 ```
 
-```
+`
 {'extinction': 443, 'explode': 557}
-```
+`
 
 According to (1.5), the extinction probability is approximately $0.44$. 
 
