@@ -9,6 +9,6 @@ What do I mean with probabilistic models? Modern machine learning techniques are
 
 Although probabilistic models and the more classical statistical methods have been left behind a little bit due to the explosive development of the machine and deep learning world, they remain pretty useful in a bunch of situations. I'm not trying to draw a line between both: both of them share lots of similarities and one complement each other. In fact, many models combines both approaches.  
 
-### Index:
+### Index
 * [Basic Examples of Stochastic Processes](pyro-models/basic-examples.html)
 
