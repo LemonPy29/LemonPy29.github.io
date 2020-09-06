@@ -15,10 +15,10 @@ In the next article we'll cover the theory behind g.b and see a working example 
 
 ## Gradient Boosting and Gradient Descent
 
-In order to understand the intuition behind gradient boosting, first we'll take a look at our familiar algorithm gradient descent. Given a loss function $L$ and set of the learnable parameters   $\Theta=(\theta_1, \ldots, \theta_n)$,  we try to push $L$ to its local minima by substracting to each parameter a fraction of its gradient
-$$
+In order to understand the intuition behind gradient boosting, first we'll take a look at our familiar algorithm gradient descent. Given a loss function \\(L\\) and set of the learnable parameters \\(\Theta=(\theta_1, \ldots, \theta_n)\\),  we try to push $L$ to its local minima by substracting to each parameter a fraction of its gradient
+\\[
 \theta_j := \theta_j - \nu\dfrac{\partial L(y, \hat{y}(\Theta, x))}{\partial \theta_j} \tag{1.1}
-$$
+\\]
 Here $y$ represents the ground truth and $\hat{y}$ the prediction that depends on the parameters $\Theta$ and the data (or a data batch) $x$. Nowadays the minus term is much more fancier, but we're interested in this simpler version. The aim of gradient boosting is to minimize a loss function too, but in a slightly different way. 
 
 Before we go deeper let me set up a dataset to work with
