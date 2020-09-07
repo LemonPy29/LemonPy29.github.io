@@ -1,11 +1,9 @@
 ---
 layout: page
-title: Gradient Boosting
+title: Understanding Gradient Boosting
 nav: false
 ---
 <link rel="stylesheet" href="/assets/css/main.css"/>
-
-# Understanding Gradient Boosting
 
 ## Introduction
 
