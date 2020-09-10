@@ -110,17 +110,42 @@ g(x) \sim -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}}
 
 Indeed, here's the gist of g.b. **Instead of modifying the same model parameters, we train another model on the loss gradients and procced to update the predictions (not parameters),  by adding to them the new model predictions of minus the gradients.**
 
-Let's see a code implementation
-
 ## Fitting the gradients
 
-Let's start by introducing some notation
+Before we start coding let me show you just one step of the algorithm in equations. Let's define
 
 \\[
-\hat{y}^{(0)} = f^{(0)}(x) \hspace{.2cm};\hspace{.2cm} r^{(0)} = \dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \bigg\rvert _{\hat{y}=\hat{y}^{(0)}}  \tag{1.5}
+\hat{y} = \hat{y}^{(0)} = f^{(0)}(x) \hspace{.2cm};\hspace{.2cm} r^{(0)} = -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \bigg\rvert _{\hat{y}=\hat{y}^{(0)}}  \tag{1.5}
 \\]
 
+Here \\(f^{(0)}\\) is our base learner. As stated before, fit a new model $f^{(1)}$ on $r^{(0)}$. The components of $r^{(0)}$ are called the pseudo-residuals. Update the predictions $\hat{y}$ as follows
 
+\\[
+    \hat{y} = \hat{y} + \nu\cdot \hat{y}^{(1)} \tag{1.6}
+\\]
+
+where $y^{(1)} = f^{(1)}(r^{(0)})$. Note that this essentially `(1.4)`. Let's finally write the code
+
+```python
+class gradient_booster:
+    def __init__(self, loss, lr, **tree_config):
+        self.lr = lr
+        self.loss = loss 
+        self.learners = [] 
+        self.tree_config = tree_config
+    
+    @staticmethod
+    def sigmoid(z):
+        return 1 / (1 + np.exp(-z))
+    
+    def _fit_base(self, X, y):
+        base_learner = DecisionTreeClassifier(**self.tree_config, random_state=seed)
+        base_learner.fit(X, y)
+        self.learners.append(base_learner)
+    
+    def _predict_base(self, X):
+        return self.learners[0].predict_proba(X)[:,1]
+```
 
 
 
