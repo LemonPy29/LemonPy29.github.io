@@ -73,7 +73,19 @@ print(f"f1 score: {f1_score(y_test, y_pred):.2f}")
 
 The model is trained, but you wonder if you can improve its results under the above constrains. Why not try gradient descent? Is it possible? 
 
-The first step to be to pick a loss to minimize 
+The first step to do it so, is to pick a loss to minimize. If you have never seen or study gradient boosting, it could be kind of confusing because in gradient descent you optimize the loss modifying a single model. Here, as we stated, the model can't be changed. Don't worry though, things will make sense as we go forward. 
+
+We'll choose the known binary cross-entropy or deviance loss
+
+```python
+def binary_loss():
+    def func(y, p): 
+        return -2.0 * np.mean(y * np.log(p/(1-p)) - np.logaddexp(0.0, np.log(p/(1-p))))
+    def gradient(y, p):
+        return (p-y)/(p*(1-p))
+    func.gradient = gradient
+    return func
+```
 
 Taking a closer look to the equation `(1.1)`, if we want to compute those gradients, by the chain rule, first we need to compute the gradients respect to \\(\hat{y}\\) 
 \\[
@@ -85,11 +97,14 @@ I pointed that to emphasize that we can differentiate the loss respect to the pr
 \\]
 Here we're taking each train example (for \\(i=1,\ldots,m\\) if you have \\(m\\) data points),  predicting, computing the gradients respect to the predictions and updating the prediction according to the same gradient descent rule. Note that the spirit remains the same: push the loss to its minimum by changing the variables to go in the opposite direction of the gradients.  
 
-Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. To compute the gradients, the true label of each data point is needed. At train time, sure, we have them, but at inference time we don't and they probability don't exist. Don't worry though, there is a solution to this issue, but before we dive into that, let me describe the situation again in another way
+Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. To compute the gradients, the true label of each data point is needed. At train time, sure, we have them, but at inference time we don't and they probability don't exist. Don't worry though, there is a solution to this issue, but before we dive into that, let me give you a hint
 
 \\[
-\hat{y} = \hat{y} + \nu \left(\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}}\right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdot g(x)
+\hat{y} = \hat{y} + \nu \left(-\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}}\right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdot g(x) \\
+g(x) \sim -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \tag{1.4}
 \\]
+
+(From now on, I'm not going to add the data point sub-index) Equation `(1.4)` is indicating us to replace the gradients for something similar that only depends on the data at hand and not on the labels. Take a moment to think about it. It's just another machine learning problem: find a function or map from the data to a target, but this time the target is the gradient vector. Considering this, a natural solution is to fit a new model on the gradients and then replace them with the predictions.
 
 ## Fitting the gradients
 
