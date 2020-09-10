@@ -88,7 +88,7 @@ Here we're taking each train example (for \\(i=1,\ldots,m\\) if you have \\(m\\)
 Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. To compute the gradients, the true label of each data point is needed. At train time, sure, we have them, but at inference time we don't and they probability don't exist. Don't worry though, there is a solution to this issue, but before we dive into that, let me describe the situation again in another way
 
 \\[
-\hat{y} = \hat{y} + \nu\left( {\partial L(y,\hat{y})}{\partial\hat{y}} \right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdotg(x)
+\hat{y} = \hat{y} + \nu {\partial L(y,\hat{y})}{\partial\hat{y}} \rightsquigarrow \hat{y} = \hat{y} + \nu\cdot g(x)
 \\]
 
 ## Fitting the gradients
