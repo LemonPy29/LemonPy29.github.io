@@ -100,18 +100,25 @@ Here we're taking each train example (for \\(i=1,\ldots,m\\) if you have \\(m\\)
 Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. To compute the gradients, the true label of each data point is needed. At train time, sure, we have them, but at inference time we don't and they probability don't exist. Don't worry though, there is a solution to this issue, but before we dive into that, let me give you a hint
 
 \\[
-\hat{y} = \hat{y} + \nu \left(-\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}}\right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdot g(x)
+\hat{y} = \hat{y} + \nu \left(-\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}}\right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdot g(x) \tag{1.4}
 \\]
 \\[
-g(x) \sim -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \tag{1.4}
+g(x) \sim -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} 
 \\]
 
 (From now on, I'm not going to add the data point sub-index) Equation `(1.4)` is indicating us to replace the gradients for something similar that only depends on the data at hand and not on the labels. Take a moment to think about it. It's just another machine learning problem: find a function or map from the data to a target, but this time the target is the gradient vector. Considering this, a natural solution is to fit a new model on the gradients and then replace them with the predictions.
 
+Indeed, here's the gist of g.b. **Instead of modifying the same model parameters, we train another model on the loss gradients and procced to update the predictions (not parameters),  by adding to them the new model predictions of minus the gradients.**
+
+Let's see a code implementation
+
 ## Fitting the gradients
 
+Let's start by introducing some notation
 
-
+\\[
+\hat{y}^{(0)} = f^{(0)}(x) \hspace{.2cm};\hspace{.2cm} r^{(0)} = \dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \bigg\rvert _{\hat{y}=\hat{y}^{(0)}}  \tag{1.5}
+\\]
 
 
 
