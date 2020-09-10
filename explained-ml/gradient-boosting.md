@@ -32,15 +32,13 @@ import matplotlib.pyplot as plt
 seed = 1301
 ```
 
-This is a famous one on kaggle: *The titanic dataset*. I will not go into the details, the only thing you need to now about it is that contains information (features) of the passengers of the Titanic and the aim is to predict if the passenger survived or not. 
+This is a famous one on kaggle: *The titanic dataset*. I will not go into the details, the only thing you need to now about it is that contains information (features) of the passengers of the Titanic and the aim is to predict if the passenger survived or not. In short, it's a binary classification problem. 
 
 ```python
 # modified version of the classic titanic data set from kaggle
-# more about it here https://www.kaggle.com/heptapod/titanic
-
-url_data = "https://storage.googleapis.com/kagglesdsdata/datasets%2F1275%2F2286%2Ftrain_and_test2.csv?GoogleAccessId=gcp-kaggle-com@kaggle-161607.iam.gserviceaccount.com&Expires=1599677734&Signature=iYOv1Xp1F6iKrriHIaaG%2BIn3TBaDo2ECAKsCmU%2BQ7GH4RT37IFy3CKOwxH82%2BAAZLIUA4Iq1gITOGIWC9U7U%2BMLjsl8Owo9AsGkmSkx5qgEtHE0GB7j9bhyw6%2FYlS4X7QtsrGdcslfkIqGi47cDgo9Nv6CgDVh80LaobyqzDhnc8YCAEIZFB2Re7ch6KsEbalI0N6bmH%2BstJfPqoPl9zT4wf2UB0pjm9WVSuP6RTVWnS8incJbF5LMUZfmQdC7gcLIX2zI4dvSfpOibYHvvbJzHOL6Rdun6fBUp%2FkJL3Tnfv9LX%2B2%2BzTnASFl1spy5F9cFtvO3wIpz0RVmlBUtQCrg%3D%3D"
-
-data = pd.read_csv(url_data)
+# download at https://www.kaggle.com/heptapod/titanic
+path = 'titanic_mod.csv'
+data = pd.read_csv(path)
 ```
 
 Suppose you start with a base model that may or not have learnable parameters. For the purpose of this example, suppose also the model can either be trained or used to predict, but you're not allowed to make any changes on the internals of it and maybe you don't even know how the model works. As I pointed in the introduction, let's use trees.
@@ -50,14 +48,15 @@ First prepare and split the data
 ```python
 def split_data(data, target, drop, test_size=0.2, seed=seed):
     # short method to prepare and split
-    data_drop_nan = data.dropna()
-    return train_test_split(data_drop_nan.drop(target + drop, axis=1),
-                            data_drop_nan[target],
+    data_wo_nan = data.dropna()
+    flat_target = data_wo_nan[target].values.ravel()
+    return train_test_split(data_wo_nan.drop(target + drop, axis=1),
+                            flat_target,
                             test_size=test_size,
                             random_state=seed)
 
 drop = ['Passengerid'] 
-target = ['2urvived']
+target = ['Survived']
 X_train, X_test, y_train, y_test = split_data(data, target, drop)
 ```
 
@@ -72,7 +71,9 @@ print(f"f1 score: {f1_score(y_test, y_pred):.2f}")
 ```
 `f1 score: 0.63`
 
-So we've trained but obviously wonder if we can improve these results under the rules. Why not try gradient descent? At first glance that could sound a bit silly, where are the parameters?   
+The model is trained, but you wonder if you can improve its results under the above constrains. Why not try gradient descent? Is it possible? 
+
+The first step to be to pick a loss to minimize 
 
 Taking a closer look to the equation `(1.1)`, if we want to compute those gradients, by the chain rule, first we need to compute the gradients respect to \\(\hat{y}\\) 
 \\[
@@ -82,12 +83,15 @@ I pointed that to emphasize that we can differentiate the loss respect to the pr
 \\[
 \hat{y}(x_i) := \hat{y}(x_i) -\nu\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \bigg\rvert _{\hat{y}=\hat{y}(x_i)}  \tag{1.3}
 \\]
-Here we're taking each train example (for \\(i=1,\ldots,m\\) if you have \\(m\\) data points),  predicting, computing the gradients respect to the predictions and updating the prediction according to the same gradient descent rule.
+Here we're taking each train example (for \\(i=1,\ldots,m\\) if you have \\(m\\) data points),  predicting, computing the gradients respect to the predictions and updating the prediction according to the same gradient descent rule. Note that the spirit remains the same: push the loss to its minimum by changing the variables to go in the opposite direction of the gradients.  
 
- Note that the spirit remains the same: push the loss to its minimum by changing the variables to go in the opposite direction of the gradients.  Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. At train time there is no problem at all, we have all the ingredients needed. But what will happen at inference time? Of course the base learner will predict with no problem at all but recall that its predictions were poor. The improvements have been made over the predictions themselves. Can we apply the same technique? Sadly, we can't. The labels are no longer available so the gradients can't be used. 
+Although this should boost the performance, we still have to deal with a big detail in `(1.3)`. To compute the gradients, the true label of each data point is needed. At train time, sure, we have them, but at inference time we don't and they probability don't exist. Don't worry though, there is a solution to this issue, but before we dive into that, let me describe the situation again in another way
 
+\\[
+\hat{y} = \hat{y} + \nu\left( {\partial L(y,\hat{y})}{\partial\hat{y}} \right) \rightsquigarrow \hat{y} = \hat{y} + \nu\cdotg(x)
+\\]
 
-
+## Fitting the gradients
 
 
 
