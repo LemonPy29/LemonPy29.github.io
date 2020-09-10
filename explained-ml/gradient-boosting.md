@@ -13,7 +13,7 @@ In the next article we'll cover the theory behind g.b and see a working example 
 
 ## Gradient Boosting and Gradient Descent
 
-In order to understand the intuition behind gradient boosting, first we'll take a look at our familiar algorithm gradient descent. Given a loss function \\(L\\) and set of the learnable parameters \\(\Theta=(\theta_1, \ldots, \theta_n)\\),  we try to push $L$ to its local minima by substracting to each parameter a fraction of its gradient
+In order to understand the intuition behind gradient boosting, first we'll take a look at our familiar algorithm gradient descent. Given a loss function \\(L\\) and set of the learnable parameters \\(\Theta=(\theta_1, \ldots, \theta_n)\\),  we try to push \\(L\\) to its local minima by substracting to each parameter a fraction of its gradient
 \\[
 \theta_j := \theta_j - \nu\dfrac{\partial L(y, \hat{y}(\Theta, x))}{\partial \theta_j} \tag{1.1}
 \\]
@@ -118,14 +118,15 @@ Before we start coding let me show you just one step of the algorithm in equatio
 \hat{y} = \hat{y}^{(0)} = f^{(0)}(x) \hspace{.2cm};\hspace{.2cm} r^{(0)} = -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} \bigg\rvert _{\hat{y}=\hat{y}^{(0)}}  \tag{1.5}
 \\]
 
-Here \\(f^{(0)}\\) is our base learner. As stated before, fit a new model $f^{(1)}$ on $r^{(0)}$. The components of $r^{(0)}$ are called the pseudo-residuals. Update the predictions $\hat{y}$ as follows
+Here \\(f^{(0)}\\) is our base learner. As stated before, fit a new model \\(f^{(1)}\\) on \\(r^{(0)}\\). The components of \\(r^{(0)}\\) are called the pseudo-residuals. Update the predictions \\(\hat{y}\\) as follows
 
 \\[
     \hat{y} = \hat{y} + \nu\cdot \hat{y}^{(1)} \tag{1.6}
 \\]
 
-where $y^{(1)} = f^{(1)}(r^{(0)})$. Note that this essentially `(1.4)`. Let's finally write the code
+where \\(y^{(1)} = f^{(1)}(r^{(0)})\\). Note that this essentially `(1.4)`. Let's see some code.
 
+Start with a base class and define methods related to the base learner
 ```python
 class gradient_booster:
     def __init__(self, loss, lr, **tree_config):
@@ -146,8 +147,24 @@ class gradient_booster:
     def _predict_base(self, X):
         return self.learners[0].predict_proba(X)[:,1]
 ```
+And finally, the boosting
 
-
+```python
+def fit(self, X, y, boosting_rounds):
+        self.loss_history = []
+        self._fit_base(X, y)
+        prbs = self._predict_base(X)
+        predictions = prbs
+        
+        for _ in range(boosting_rounds):
+            target = -self.loss.gradient(y, prbs)
+            current_model = DecisionTreeRegressor(**self.tree_config, random_state=seed) 
+            current_model.fit(X, target)
+            self.learners.append(current_model)
+            predictions += self.lr * current_model.predict(X)
+            prbs = self.sigmoid(predictions) 
+            self.loss_history.append(loss(y, prbs))
+```
 
 
 
