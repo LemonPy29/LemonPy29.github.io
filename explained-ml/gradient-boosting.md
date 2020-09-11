@@ -32,6 +32,8 @@ import matplotlib.pyplot as plt
 seed = 1301
 ```
 
+
+
 This is a famous one on kaggle: *The titanic dataset*. I will not go into the details, the only thing you need to now about it is that contains information (features) of the passengers of the Titanic and the aim is to predict if the passenger survived or not. In short, it's a binary classification problem. 
 
 ```python
