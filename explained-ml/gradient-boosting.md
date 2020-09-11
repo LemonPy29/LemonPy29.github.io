@@ -194,6 +194,8 @@ ax.set_ylabel('Binary Loss')
    <figcaption>Fig 1. Loss function along boosting rounds</figcaption>
 </figure>
 
+
+
 Good, the loss is indeed decresing. Although for any real world validation you should look at the test loss, the graph let us know things are working as expected. What about the score?
 
 ```python
