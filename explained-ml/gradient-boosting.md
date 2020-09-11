@@ -168,7 +168,7 @@ And finally, the boosting
 ```
 A couple of comments:
 * In this particular case the loss has a restricted domain, \\(0,1\\). In theory, the residuals could take any real value so a sigmoid function is applied before passing the residuals to the loss. 
-* As we are dealing with a classification problem, the base learner must be a classifaction algorithm. In the other hand, the residuals are a continouos target, therefore, the next learners are all regressors. 
+* As we are dealing with a classification problem, the base learner must be a classification algorithm. In the other hand, the residuals are a continuous target, therefore, the next learners are all regressors. 
 
 The prediction method follows the same pattern
 ```python
@@ -179,16 +179,33 @@ The prediction method follows the same pattern
                 predictions += self.lr * m.predict(X)
             return self.sigmoid(predictions)
 ```
-Let's see if every works as expected
+Let's use our boosting algorithm
 ```python
 booster = gradient_booster(loss=binary_loss(), lr=0.01, max_depth=3)
 booster.fit(X_train, y_train, 50)
 
+fig, ax = plt.subplots(1,1)
+ax.plot(booster.loss_history)
+ax.set_xlabel('Boosting Rounds')
+ax.set_ylabel('Binary Loss')
 ```
 <figure>  
    <img src="img/gb-loss.png"/>
-   <figcaption>Fig 1. Pizza Orders</figcaption>
+   <figcaption>Fig 1. Loss function along boosting rounds</figcaption>
 </figure>
+
+Good, the loss is indeed decresing. Although for any real world validation you should look at the test loss, the graph let us know things are working as expected. What about the score?
+
+```python
+y_prob = booster.predict_proba(X_test)
+y_pred = 1 * (y_prob>0.5)
+print(f"f1 score: {f1_score(y_test,y_pred):.2f}")
+```
+`f1 score: 0.71`
+
+## Final words
+
+I hope this article gives you a good understanding of what it is one of the most used machine learning techniques nowadays, but more than that I hope it gives a better intuition. Although modern API's, as those mentioned in the introduction, are much more complex,    
 
 
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
