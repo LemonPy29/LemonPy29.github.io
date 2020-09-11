@@ -183,8 +183,12 @@ Let's see if every works as expected
 ```python
 booster = gradient_booster(loss=binary_loss(), lr=0.01, max_depth=3)
 booster.fit(X_train, y_train, 50)
-```
 
+```
+<figure>  
+   <img src="img/gb-loss.png"/>
+   <figcaption>Fig 1. Pizza Orders</figcaption>
+</figure>
 
 
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
