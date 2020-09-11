@@ -189,6 +189,7 @@ ax.plot(booster.loss_history)
 ax.set_xlabel('Boosting Rounds')
 ax.set_ylabel('Binary Loss')
 ```
+
 <figure>  
    <img src="img/gb-loss.png"/>
    <figcaption>Fig 1. Loss function along boosting rounds</figcaption>
