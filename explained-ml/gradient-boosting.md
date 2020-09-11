@@ -167,7 +167,7 @@ And finally, the boosting
                 self.loss_history.append(loss(y, prbs))
 ```
 A couple of comments:
-* In this particular case the loss has a restricted domain, \\(0,1\\). In theory, the residuals could take any real value so a sigmoid function is applied before passing the residuals to the loss. 
+* In this particular case the loss has a restricted domain, \\((0,1)\\). In theory, the residuals could take any real value so a sigmoid function is applied before passing the residuals to the loss. 
 * As we are dealing with a classification problem, the base learner must be a classification algorithm. In the other hand, the residuals are a continuous target, therefore, the next learners are all regressors. 
 
 The prediction method follows the same pattern
@@ -192,7 +192,9 @@ ax.set_ylabel('Binary Loss')
 
 <figure>  
    <img src="img/gb-loss.png"/>
-   <figcaption>Fig 1. Loss function along boosting rounds</figcaption>
+   <figcaption>
+       <b>Fig 1.</b> Loss function along boosting rounds
+    </figcaption>
 </figure>
 
 
@@ -208,7 +210,7 @@ print(f"f1 score: {f1_score(y_test,y_pred):.2f}")
 
 ## Final words
 
-I hope this article gives you a good understanding of what it is one of the most used machine learning techniques nowadays, but more than that I hope it gives a better intuition. Although modern API's, as those mentioned in the introduction, are much more complex,    
+Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding of what it is one of the most used machine learning techniques nowadays, but more than that I hope it gives a better intuition   
 
 
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
