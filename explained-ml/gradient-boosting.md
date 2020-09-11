@@ -40,7 +40,7 @@ This is a famous one on kaggle: *The titanic dataset*. I will not go into the de
 path = 'titanic_mod.csv'
 data = pd.read_csv(path)
 ```
-
+<br>
 Suppose you start with a base model that may or not have learnable parameters. For the purpose of this example, suppose also the model can either be trained or used to predict, but you're not allowed to make any changes on the internals of it and maybe you don't even know how the model works. As I pointed in the introduction, let's use trees.
 
 First prepare and split the data
@@ -59,7 +59,7 @@ drop = ['Passengerid']
 target = ['Survived']
 X_train, X_test, y_train, y_test = split_data(data, target, drop)
 ```
-
+<br>
 We train with almost default arguments, just set the `max_depth`, and we'll use the \\(F_1\\) score to measure the performance
 
 ```python
@@ -86,7 +86,7 @@ def binary_loss():
     func.gradient = gradient
     return func
 ```
-
+<br>
 Taking a closer look to the equation `(1.1)`, if we want to compute those gradients, by the chain rule, first we need to compute the gradients respect to \\(\hat{y}\\) 
 \\[
 \dfrac{\partial L(y, \hat{y})}{\partial \theta_j} = \dfrac{\partial L(y,\hat{y})}{\partial{\hat{y}}}\dfrac{\partial\hat{y}}{\partial\theta_j} \tag{1.2}
@@ -147,8 +147,8 @@ class gradient_booster:
     def _predict_base(self, X):
         return self.learners[0].predict_proba(X)[:,1]
 ```
+<br>
 And finally, the boosting
-
 ```python
 #inside gb class
     def fit(self, X, y, boosting_rounds):
@@ -166,6 +166,7 @@ And finally, the boosting
                 prbs = self.sigmoid(predictions) 
                 self.loss_history.append(loss(y, prbs))
 ```
+<br>
 A couple of comments:
 * In this particular case the loss has a restricted domain, \\((0,1)\\). In theory, the residuals could take any real value so a sigmoid function is applied before passing the residuals to the loss. 
 * As we are dealing with a classification problem, the base learner must be a classification algorithm. In the other hand, the residuals are a continuous target, therefore, the next learners are all regressors. 
@@ -179,6 +180,7 @@ The prediction method follows the same pattern
                 predictions += self.lr * m.predict(X)
             return self.sigmoid(predictions)
 ```
+<br>
 Let's use our boosting algorithm
 ```python
 booster = gradient_booster(loss=binary_loss(), lr=0.01, max_depth=3)
@@ -198,7 +200,6 @@ ax.set_ylabel('Binary Loss')
 </figure>
 
 
-
 Good, the loss is indeed decresing. Although for any real world validation you should look at the test loss, the graph let us know things are working as expected. What about the score?
 
 ```python
@@ -210,10 +211,14 @@ print(f"f1 score: {f1_score(y_test,y_pred):.2f}")
 
 ## Final words
 
-Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding of what it is one of the most used machine learning techniques nowadays, but more than that I hope it gives a better intuition   
+Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding, and even a better intuition, of the gradient boosting algorithm. 
+It's this approach doesn't suit you, or you simply want to read more, I recommend you this excellent article 
+You always can go with the hard version of .
 
-
+## References
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
-[^2]:  [LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf)
+[^2]: [LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf)
+[^3]: [How to explain gradient boosting](https://explained.ai/gradient-boosting/)
+[^4]: **The Elements of Statistical Learning: Data Mining, Inference and Prediction** Trevor Hastie, et al.
 
 
