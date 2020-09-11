@@ -212,13 +212,13 @@ print(f"f1 score: {f1_score(y_test,y_pred):.2f}")
 ## Final words
 
 Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding, and even a better intuition, of the gradient boosting algorithm. 
-It's this approach doesn't suit you, or you simply want to read more, I recommend you this excellent article[^3] by Terrence Parr and Jeremy Howard
-You always can go with a more formal version by T.Hastie[^4]
+It's this approach doesn't suit you, or you simply want to read more, I recommend you this excellent article [^3] by Terrence Parr and Jeremy Howard
+You always can go with a more formal version by T.Hastie et. al [^4]
 
 ## References
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
 [^2]: [LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf)
 [^3]: [How to explain gradient boosting](https://explained.ai/gradient-boosting/)
-[^4]: **The Elements of Statistical Learning: Data Mining, Inference and Prediction** Trevor Hastie, et al.
+[^4]: [The Elements of Statistcal Learning](https://link.springer.com/book/10.1007/978-0-387-84858-7)
 
 
