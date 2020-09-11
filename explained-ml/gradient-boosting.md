@@ -124,9 +124,9 @@ Here \\(f^{(0)}\\) is our base learner. As stated before, fit a new model \\(f^{
     \hat{y} = \hat{y} + \nu\cdot \hat{y}^{(1)} \tag{1.6}
 \\]
 
-where \\(y^{(1)} = f^{(1)}(r^{(0)})\\). Note that this essentially `(1.4)`. Let's see some code.
+where \\(y^{(1)} = f^{(1)}(r^{(0)})\\). We'll repeat this process until some stopping criterion is hit or for simplicity, as in this example, just harcode the number of iterations (`boosting rounds`). 
 
-Start with a base class and define methods related to the base learner
+Let's see some code. Start with a base class and define methods related to the base learner
 ```python
 class gradient_booster:
     def __init__(self, loss, lr, **tree_config):
@@ -150,22 +150,40 @@ class gradient_booster:
 And finally, the boosting
 
 ```python
-def fit(self, X, y, boosting_rounds):
-        self.loss_history = []
-        self._fit_base(X, y)
-        prbs = self._predict_base(X)
-        predictions = prbs
-        
-        for _ in range(boosting_rounds):
-            target = -self.loss.gradient(y, prbs)
-            current_model = DecisionTreeRegressor(**self.tree_config, random_state=seed) 
-            current_model.fit(X, target)
-            self.learners.append(current_model)
-            predictions += self.lr * current_model.predict(X)
-            prbs = self.sigmoid(predictions) 
-            self.loss_history.append(loss(y, prbs))
-```
+#inside gb class
+    def fit(self, X, y, boosting_rounds):
+            self.loss_history = []
+            self._fit_base(X, y)
+            prbs = self._predict_base(X)
+            predictions = prbs
 
+            for _ in range(boosting_rounds):
+                target = -self.loss.gradient(y, prbs)
+                current_model = DecisionTreeRegressor(**self.tree_config, random_state=seed) 
+                current_model.fit(X, target)
+                self.learners.append(current_model)
+                predictions += self.lr * current_model.predict(X)
+                prbs = self.sigmoid(predictions) 
+                self.loss_history.append(loss(y, prbs))
+```
+A couple of comments:
+* In this particular case the loss has a restricted domain, \\(0,1\\). In theory, the residuals could take any real value so a sigmoid function is applied before passing the residuals to the loss. 
+* As we are dealing with a classification problem, the base learner must be a classifaction algorithm. In the other hand, the residuals are a continouos target, therefore, the next learners are all regressors. 
+
+The prediction method follows the same pattern
+```python
+#inside gb class
+    def predict_proba(self, X):
+            predictions = self._predict_base(X)
+            for m in self.learners[1:]:
+                predictions += self.lr * m.predict(X)
+            return self.sigmoid(predictions)
+```
+Let's see if every works as expected
+```python
+booster = gradient_booster(loss=binary_loss(), lr=0.01, max_depth=3)
+booster.fit(X_train, y_train, 50)
+```
 
 
 
