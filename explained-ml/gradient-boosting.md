@@ -211,9 +211,9 @@ print(f"f1 score: {f1_score(y_test,y_pred):.2f}")
 
 ## Final words
 
-Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding, and even a better intuition, of the gradient boosting algorithm. 
-It's this approach doesn't suit you, or you simply want to read more, I recommend you this excellent article [^3] by Terrence Parr and Jeremy Howard
-You always can go with a more formal version by T.Hastie et. al [^4]
+Although modern API's, as those mentioned in the introduction, are much more complex, I hope this article gives you a good understanding, and even a better intuition, of the gradient boosting algorithm. In my point of view, the key is the relation between gradient descent and boosting.  
+If you want to read more about this topic I recommend you this excellent and complete article [^3] by Terrence Parr and Jeremy Howard. 
+Also you can go with a more formal version by T.Hastie et. al [^4]
 
 ## References
 [^1]: [XGBoost: A Scalable Tree Boosting System](https://arxiv.org/abs/1603.02754) 
