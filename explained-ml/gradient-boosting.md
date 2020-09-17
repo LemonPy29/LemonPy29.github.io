@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 seed = 1301
 ```
 <br>
-This is a famous one on kaggle: *The titanic dataset*. I will not go into the details, the only thing you need to now about it is that contains information (features) of the passengers of the Titanic and the aim is to predict if the passenger survived or not. In short, it's a binary classification problem. 
+This is a famous one on kaggle: *The titanic dataset*. I will not go into the details, the only thing you need to know about it is that it contains information (features) of the passengers of the Titanic and the aim is to predict if the passenger survived or not. In short, it's a binary classification problem. 
 
 ```python
 # modified version of the classic titanic data set from kaggle
@@ -41,7 +41,7 @@ path = 'titanic_mod.csv'
 data = pd.read_csv(path)
 ```
 <br>
-Suppose you start with a base model that may or not have learnable parameters. For the purpose of this example, suppose also the model can either be trained or used to predict, but you're not allowed to make any changes on the internals of it and maybe you don't even know how the model works. As I pointed in the introduction, let's use trees.
+Suppose you start with a base model that may or may not have learnable parameters. For the purpose of this example, suppose also the model can either be trained or used to predict, but you're not allowed to make any changes on the internals parts of it and maybe you don't even know how the model works. As I pointed in the introduction, let's use trees.
 
 First prepare and split the data
 
@@ -106,7 +106,7 @@ Although this should boost the performance, we still have to deal with a big det
 g(x) \sim -\dfrac{\partial L(y,\hat{y})}{\partial\hat{y}} 
 \\]
 
-(From now on, I'm not going to add the data point sub-index) Equation `(1.4)` is indicating us to replace the gradients for something similar that only depends on the data at hand and not on the labels. Take a moment to think about it. It's just another machine learning problem: find a function or map from the data to a target, but this time the target is the gradient vector. Considering this, a natural solution is to fit a new model on the gradients and then replace them with the predictions.
+(From now on, I'm not going to add the data point sub-index) Equation `(1.4)` is indicating us to replace the gradients by something similar that only depends on the data at hand and not on the labels. Take a moment to think about it. It's just another machine learning problem: find a function or map from the data to a target, but this time the target is the gradient vector. Considering this, a natural solution is to fit a new model on the gradients and then replace them with the predictions.
 
 Indeed, here's the gist of g.b. **Instead of modifying the same model parameters, we train another model on the loss gradients and procced to update the predictions (not parameters),  by adding to them the new model predictions of minus the gradients.**
 
