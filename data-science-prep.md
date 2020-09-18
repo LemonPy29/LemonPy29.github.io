@@ -8,4 +8,4 @@ Here I review the solutions to the *data science interview questions* I get from
 **DISCLAIMER**: I actually don't know if any of this questions have been asked in a real interview.
 
 ### Index
-* [Coding](pyro-models/basic-examples.html)
+* [Coding](data-science-prep/coding.html)
