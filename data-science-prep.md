@@ -9,3 +9,4 @@ Here I review the solutions to the *data science interview questions* I get from
 
 ### Index
 * [Coding](data-science-prep/coding.html)
+* [Probability and Statistic](data-science-prep/probability-statistic.html)
