@@ -24,5 +24,5 @@ First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways:
     
 To compute the integral we condition too
 \\[ \int_{(X>Y)}Xd\textbf{P} = \int_{0}^{1} \int_{X>y} X f_Y(y)d\textbf{P} dy \\]
-\\[ \hspace{.25cm} = \int_{0}^{1} \int_{y}^{1} x f_X(x) f_Y(y)dxdy \\]
-\\[ \hspace{.25cm} = \int_{0}^{1} \left( \frac{1}{2} - \frac{x^2}{2} \right)dxdy \\]
+\\[ \hspace{.5cm} = \int_{0}^{1} \int_{y}^{1} x f_X(x) f_Y(y)dxdy \\]
+\\[ \hspace{.5cm} = \int_{0}^{1} \left( \frac{1}{2} - \frac{x^2}{2} \right)dxdy \\]
