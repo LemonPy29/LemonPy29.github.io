@@ -11,6 +11,14 @@ nav: false
 Using the definition of conditional expectation:
 
 \\[
-\textbf{E}(X|X>Y) = \dfrac{1}{\textbf{P}(X>Y)}\int_{ \{X>Y\} }Xd\textbf{P} \{a\}
+\textbf{E}(X|X>Y) = \dfrac{1}{\textbf{P}(X>Y)}\int_{(X>Y)}Xd\textbf{P} 
 \\]
+
+First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways: 
+  * Intuitively, the fact \\( X, Y\\) are independent and uniform distributed implies
+    \\[ \textbf{P}(X>Y) = \textbf{P}(X\leq Y) ]\\ 
+   * Or analytically
+    \\[ 
+    \textbf{P}(X>Y) = \int_{0}^{1} \textbf{P}(Y<x)f_X(x) dx = \int_{0}^{1} xdx = \frac{1}{2}
+    \\]
 
