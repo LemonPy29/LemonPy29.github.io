@@ -26,7 +26,7 @@ def obstacles(grid):
                     dp[i][j] = dp[i][j - 1] 
                 elif i >= 2 and j == 0:
                     dp[i][j] = dp[i - 1][j] 
-                elif i>= 1 and j >= 1:
+                elif i >= 1 and j >= 1:
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1] 
 
     return dp[-1][-1]
