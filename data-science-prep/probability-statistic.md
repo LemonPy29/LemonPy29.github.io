@@ -16,7 +16,9 @@ Using the definition of conditional expectation:
 
 First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways: 
   * Intuitively, the fact \\( X, Y\\) are independent and uniform distributed implies
-    \\[ \textbf{P}(X>Y) = \textbf{P}(X\leq Y) ]\\ 
+    \\[ 
+    \textbf{P}(X>Y) = \textbf{P}(X\leq Y) 
+    ]\\ 
     As those sets complement each other, their probability is \\( 1/2 \\)
   * Or analytically
     \\[ 
