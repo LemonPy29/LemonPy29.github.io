@@ -55,7 +55,7 @@ expected(100000)
 
 *Statment*: Alice and Bob are choosing their top 3 shows from a list of 50 shows. Assume that they choose independently of one another. Being relatively new to Hulu, assume also that they choose randomly within the 50 shows. What is the expected number of shows they have in common, and what is the probability that they do not have any shows in common?
 
-Suppose \\( X \\) and \\( Y \\) represents the shows choosen by Alice and Bob respectively. Let \\( s = (s_1, s_2, s_3) \\) be the possible show trios. As the order doesn't matter, we have
+Suppose \\( X \\) and \\( Y \\) represents the shows choosen by Alice and Bob respectively. Let \\( s = (s_1, s_2, s_3) \\) be a possible show trio. As the shows are pick randomly we have 
 \\[
-\textbf{P}(X = s) = \textbf{P}(Y = s) = \alpha = \frac{1}{\binom{N}{k}}
+\textbf{P}(X = s) = \textbf{P}(Y = s) = \frac{1}{\alpha} \hspace{.5cm} ; \hspace{.5cm} \alpha = \binom{50}{3}
 \\]
