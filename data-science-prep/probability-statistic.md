@@ -28,7 +28,7 @@ First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways:
 To compute the integral we condition too
 \\[ \int_{(X>Y)}Xd\textbf{P} = \int_{0}^{1} \int_{X>y} X f_Y(y)d\textbf{P} dy = \int_{0}^{1} \int_{y}^{1} x f_X(x) f_Y(y)dxdy  = \frac{1}{3}\\]
 
-So we conclude \\( \textbf{E}(X|X>Y) \\). Here is a verification 
+So we conclude \\(\textbf{E}(X|X>Y)\\). Here is a verification 
 
 ```python
 from pyro.distributions import Uniform
