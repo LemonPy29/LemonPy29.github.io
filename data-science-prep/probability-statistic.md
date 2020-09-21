@@ -11,8 +11,6 @@ nav: false
 Using the definition of conditional expectation:
 
 \\[
-
 \textbf{E}(X|X>Y) = \dfrac{1}{\textbf{P}(X>Y)}\int_{\{X>Y}\}Xd\textbf{P}
-
 \\]
 
