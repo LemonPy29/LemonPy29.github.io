@@ -24,3 +24,23 @@ First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways:
     
 To compute the integral we condition too
 \\[ \int_{(X>Y)}Xd\textbf{P} = \int_{0}^{1} \int_{X>y} X f_Y(y)d\textbf{P} dy = \int_{0}^{1} \int_{y}^{1} x f_X(x) f_Y(y)dxdy  = \frac{1}{3}\\]
+
+Here is a verification 
+
+```python
+from pyro.distributions import Uniform
+from torch import Tensor
+
+def expected(samples):
+    X = Uniform(0,1)
+    Y = Uniform(0,1)
+    over = []
+    for _ in range(samples):
+        x = X.sample().item()
+        y = Y.sample().item()
+        if x > y: over.append(x)
+    return Tensor(over).mean()
+
+expected(100000)
+```
+`0.6667`
