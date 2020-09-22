@@ -75,7 +75,7 @@ P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) \cdot \textbf{P}(X = s) = \frac{1}\
 The probability inside the sum doesn't depend on the trio, so
 
 \\[ 
-P(Z = k) = P(Z = k| X = s)
+\textbf{P}(Z = k) = \textbf{P}(Z = k| X = s)
 \\]
 
 With the distribution at hand you can computed everything that was asked. Here is a code implementation
@@ -95,6 +95,8 @@ def common_shows(n_samples, n_shows=50):
     return z
 ``` 
 
+ Comparison against the reference distribution
+ 
 ```python
 domain = [0, 1, 2, 3]
 
@@ -110,4 +112,5 @@ print(reference_cdf)
 print(ecdf)
 ``` 
 `[0.82729592 0.9927551  0.99994898 1.]`
+
 `[0.8288 0.9938 1.     1.]`
