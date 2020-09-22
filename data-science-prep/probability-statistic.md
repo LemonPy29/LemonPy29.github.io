@@ -108,9 +108,8 @@ z = common_shows(5000)
 reference.cdf(domain)
 ecdf = ECDF(z)(domain)
 
-print(reference_cdf)
-print(ecdf)
+print('Reference': reference_cdf)
+print('Empirical': ecdf)
 ``` 
-`[0.82729592 0.9927551  0.99994898 1.]`
-
-`[0.8288 0.9938 1.     1.]`
+`Reference: [0.82729592 0.9927551  0.99994898 1.        ]
+Empirical: [0.8266 0.9922 1.     1.    ]`
