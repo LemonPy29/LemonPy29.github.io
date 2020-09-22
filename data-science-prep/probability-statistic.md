@@ -111,5 +111,5 @@ ecdf = np.round(ECDF(z)(domain), 2)
 print('Reference': reference_cdf)
 print('Empirical': ecdf)
 ``` 
-`Reference: [0.83 0.99 1.   1.  ]`
+`Reference: [0.83 0.99 1.   1.  ]`\
 `Empirical: [0.82 1.   1.   1.  ]`
