@@ -105,11 +105,12 @@ reference = hypergeom(50, 3, 3)
 z = common_shows(5000)
 
 # cdf
-reference.cdf(domain)
+reference_cdf = reference.cdf(domain)
 ecdf = ECDF(z)(domain)
 
 print('Reference': reference_cdf)
 print('Empirical': ecdf)
 ``` 
-`Reference: [0.82729592 0.9927551  0.99994898 1.]<br>
+`Reference: [0.82729592 0.9927551  0.99994898 1.]
+  
 Empirical: [0.8266 0.9922 1.     1.    ]`
