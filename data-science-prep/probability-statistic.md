@@ -95,7 +95,7 @@ def common_shows(n_samples, n_shows=50):
     return z
 ``` 
 <br>
- Comparison against the reference distribution
+Comparison against the reference distribution
  
 ```python
 domain = [0, 1, 2, 3]
