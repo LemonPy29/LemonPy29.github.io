@@ -59,3 +59,13 @@ Suppose \\( X \\) and \\( Y \\) represents the shows choosen by Alice and Bob re
 \\[
 \textbf{P}(X = s) = \textbf{P}(Y = s) = \frac{1}{\alpha} \hspace{.5cm} ; \hspace{.5cm} \alpha = \binom{50}{3}
 \\]
+
+Let \\( Z = (X == Y) \\) be the shows in common. If one person has already picked the shows, that is conditioning respecto to \\( X \\) or \\( Y \\), then we're trying to determine how many elements with a special feature can be found in a sample, whitout replacement, of a finite population. That's exactly the description of  a hypergeometric distribution. 
+
+\\[
+\textbf{P}(Z = k|X = s) = \frac{1}{\alpha}\binom{50}{k}\binom{47}{3-k}
+\\]
+
+\\[
+P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) * textbf{P}(X = s) = \frac{1}\{alpha}
+\\]
