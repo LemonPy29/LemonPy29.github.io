@@ -67,5 +67,5 @@ Let \\( Z = (X == Y) \\) be the shows in common. If one person has already picke
 \\]
 
 \\[
-P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) * textbf{P}(X = s) = \frac{1}\{alpha}
+P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) * \textbf{P}(X = s) = \frac{1}\{\alpha} \sum_{s} \textbf{P}(Z = k|X = s)
 \\]
