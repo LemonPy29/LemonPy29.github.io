@@ -66,6 +66,48 @@ Let \\( Z = (X == Y) \\) be the shows in common. If one person has already picke
 \textbf{P}(Z = k|X = s) = \frac{1}{\alpha}\binom{50}{k}\binom{47}{3-k}
 \\]
 
+So the distribution of \\( Z \\) is given by
+
 \\[
-P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) * \textbf{P}(X = s) = \frac{1}\{\alpha} \sum_{s} \textbf{P}(Z = k|X = s)
+P(Z = k)  = \sum_{s} \textbf{P}(Z = k|X = s) \cdot \textbf{P}(X = s) = \frac{1}\{\alpha} \sum_{s} \textbf{P}(Z = k|X = s)
+\\] 
+
+The probability inside the sum doesn't depend on the trio, so
+
+\\[ 
+P(Z = k) = P(Z = k| X = s)
 \\]
+
+With the distribution at hand you can computed everything that was asked. Here is a code implementation
+
+```python
+import numpy as np
+from statsmodels.distributions.empirical_distribution import ECDF
+from scipy.stats import hypergeom
+
+def common_shows(n_samples, n_shows=50):    
+    z = []
+    shows = [i for i in range(n_shows)]
+    for _ in range(n_samples): 
+        x = np.random.choice(shows, 3, replace=False)
+        y = np.random.choice(shows, 3, replace=False)
+        z.append(len(np.intersect1d(x, y)))
+    return z
+``` 
+
+```python
+domain = [0, 1, 2, 3]
+
+# distributions
+reference = hypergeom(50, 3, 3)
+z = common_shows(5000)
+
+# cdf
+reference.cdf(domain)
+ecdf = ECDF(z)(domain)
+
+print(reference_cdf)
+print(ecdf)
+``` 
+`[0.82729592 0.9927551  0.99994898 1.]`
+`[0.8288 0.9938 1.     1.]`
