@@ -105,11 +105,11 @@ reference = hypergeom(50, 3, 3)
 z = common_shows(5000)
 
 # cdf
-reference_cdf = np.round(reference.cdf(domain), 2)
-ecdf = np.round(ECDF(z)(domain), 2)
+reference_cdf = np.round(reference.cdf(domain), 3)
+ecdf = np.round(ECDF(z)(domain), 3)
 
-print('Reference': reference_cdf)
-print('Empirical': ecdf)
+print(f'Reference: {reference_cdf}')
+print(f'Empirical: {ecdf}')
 ``` 
-`Reference: [0.83 0.99 1.   1.  ]`\
-`Empirical: [0.82 1.   1.   1.  ]`
+`Reference: [0.827 0.993 1.    1.   ]`\
+`Empirical: [0.82 0.99 1.   1.  ]`
