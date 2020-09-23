@@ -14,7 +14,7 @@ Using the definition of conditional expectation:
 \textbf{E}(X|X>Y) = \dfrac{1}{\textbf{P}(X>Y)}\int_{(X>Y)}Xd\textbf{P} 
 \\]
 
-First compute the probability \\( \textbf{P}(X>Y) \\). There is two ways: 
+First compute the probability \\( \textbf{P}(X>Y) \\). There are two ways: 
   * Intuitively, the fact \\( X, Y\\) are independent and uniform distributed implies
     \\[ 
     \textbf{P}(X>Y) = \textbf{P}(X\leq Y) 
