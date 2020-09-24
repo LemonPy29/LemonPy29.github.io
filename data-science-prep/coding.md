@@ -6,8 +6,7 @@ nav: false
 <link rel="stylesheet" href="/assets/css/main.css"/>
 
 ### Obstacle Paths [Twitch]
-*Statment* : Given a 2-d array of 0 and 1, determine how many path exists from the top left corner to the bottom right corner given that at any point the only moves allowed
-are right and down.
+*Statment* : Given a 2-d array of 0 and 1, determine how many path exists from the top left corner to the bottom right corner given that at any point the only moves allowed are right and down.
 
 ```python
 def obstacles(grid):
@@ -30,4 +29,25 @@ def obstacles(grid):
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1] 
 
     return dp[-1][-1]
+```
+
+### Max of Sliding Window [Lyft]
+*Statment*: Given an array A of positive integers and an integer k, write a function to get the largest value within the sliding window of size k for A. Each sliding window is k numbers and moves from the leftmost to the rightmost within A, one position at a time.
+
+For example, if A = [2, 5, 3, 1, 4] and n = 2, then you should return [5, 5, 3, 4].
+
+```python
+# Time: O(k * n)
+# Space: O(k * n)
+
+def max_sliding_window(a: list, k: int):
+    l = len(a)
+    dp = [[0] * (l-i) for i in range(k)]
+    dp[0] = a
+    
+    for i in range(1, k):
+        for j in range(l-i):
+            dp[i][j] = max(dp[i - 1][j], dp[i - 1][j + 1])
+    
+    return dp[-1]
 ```
