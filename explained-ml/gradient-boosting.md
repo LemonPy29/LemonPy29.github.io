@@ -164,7 +164,7 @@ And finally, the boosting
                 self.learners.append(current_model)
                 predictions += self.lr * current_model.predict(X)
                 prbs = self.sigmoid(predictions) 
-                self.loss_history.append(loss(y, prbs))
+                self.loss_history.append(self.loss(y, prbs))
 ```
 <br>
 A couple of comments:
