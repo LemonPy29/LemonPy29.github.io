@@ -11,4 +11,4 @@ Although probabilistic models and the more classical statistical methods have be
 
 ### Index
 * [Basic Examples of Stochastic Processes](pyro-models/basic-examples.html)
-
+* [A minimal understanding of MCMC](pyro-models/mcmc_exmple.html)
