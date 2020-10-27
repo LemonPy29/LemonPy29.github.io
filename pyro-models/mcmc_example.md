@@ -64,7 +64,7 @@ probability \\(\alpha\\).
 1. If we are at \\(X_n = x\\), sample \\(y\\) from \\(q(x, y)\\)
 2. Compute \\(\alpha(x,y)\\) 
 3. Accept the proposal with probability \\(\alpha(x,y)\\). If accepted, set
-\\(X_{n+1} = y\\) else \\(X_n=x\\)
+\\(X_{n+1} = y\\) else \\(X_{n+1}=x\\)
 
 One of the earlier MCMC method it's called Hasting-Metropolis. For this 
 particular algorithm, the \\(\alpha\\) is given by
@@ -148,12 +148,12 @@ P = bm.transition_matrix()
 This \\(P\\) looks like 
 
 \\[
-P = \begin{bmatrix}
-0.4259 & 0.25   & 0.25   & 0.0740 \\
-0.125  & 0.6712 & 0.1667 & 0.0370 \\
-0.1875 & 0.25   & 0.5069 & 0.0556 \\
-0.25   & 0.25   & 0.25   & 0.25
-\end{bmatrix}
+\begin{matrix}
+0.4259 & 0.25 & 0.25 & 0.0740\\
+0.125 & 0.6712 & 0.1667 & 0.0370\\
+0.1875 & 0.25 & 0.5069 & 0.0556\\
+0.25 & 0.25 & 0.25 & 0.25
+\end{matrix}
 \\]
 
 Let's verify if \\(\pi\\) is a stationary distribution 
