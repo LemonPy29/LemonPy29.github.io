@@ -148,12 +148,10 @@ P = bm.transition_matrix()
 This \\(P\\) looks like 
 
 \\[
-\begin{matrix}
-0.4259 & 0.25 & 0.25 & 0.0740\\
-0.125 & 0.6712 & 0.1667 & 0.0370\\
-0.1875 & 0.25 & 0.5069 & 0.0556\\
-0.25 & 0.25 & 0.25 & 0.25
-\end{matrix}
+begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
 \\]
 
 Let's verify if \\(\pi\\) is a stationary distribution 
