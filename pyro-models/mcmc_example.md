@@ -70,7 +70,7 @@ One of the earlier MCMC method it's called Hasting-Metropolis. For this
 particular algorithm, the \\(\alpha\\) is given by
 
 \\[
-\alpha(x,y) = \min\left(1, \frac{q(y,x)*pi(y)}{q(x,y)*pi(x)}\right)
+\alpha(x,y) = \min\left(1,\frac{q(y,x)*\pi(y)}{q(x,y)*\pi(x)}\right)
 \\]
 
 We'll review more details about why and how MCMC works, but first let's take a
