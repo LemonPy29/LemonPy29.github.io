@@ -79,7 +79,7 @@ look at the next example
 ## Toy example
 
 Suppose we want to apply the Metropolis-Hasting algorithm to sample from a
-distribution with finite domain. This isn't the most likely case someone would
+distribution with finite support. This isn't the most likely case someone would
 use the algorithm but it's much easier to illustrate it on this way.
 
 Let's compute the entries of the transition matrix.  If \\(i \neq j\\) the
@@ -91,8 +91,8 @@ p_{ij}=\textbf{P}[X_{n+1}=i|X_n=j]=q(i,j)\alpha(i,j)
 \tag{1.3}
 \\]
 
-The rows have to sum 1, so the simplest way to compute \\(p_{ii}\\) is through
-complement 
+As the rows sum in total one, the simplest way to compute \\(p_{ii}\\) is through
+the complement 
 
 \\[
 p_{ii} = 1 - \sum_{i\neq j} p_{ij}
@@ -145,6 +145,7 @@ bm = binom_mcmc(3, .4)
 
 P = bm.transition_matrix()
 ```
+<br>
 This \\(P\\) looks like 
 
 $$
@@ -156,21 +157,35 @@ $$
 \end{bmatrix}
 $$
 
-Let's verify if \\(\pi\\) is a stationary distribution 
+If we take a closer look at the matrix \\(P\\) we can distinguish a pattern.
+Look for example at the second row which represents the probability of jumping
+from state 1 to another one.  As \\(p_{11}\\) is the higher probability on that
+row, staying at 1 is the most likely outcome. In contrast with jumping to the
+state 4 because \\(p_{14})\\ is the lowest probability there. That means that
+the chain will stay more in the state 1 and less in state 4. If we plot an
+histogram with the states visited, we will see more mass on 1, and in general,
+the shape of the histogram will coincide with the distribution \\(\pi=\(0.216,
+0.432, 0.288, 0.064)\\)
+
+Let's verify if \\(\pi\\) is a stationary distribution for \\(P\\)
 
 ```python
-assert np.allclose(v @ P, v)
+assert np.allclose(bm.pi @ P, bm.pi)
+print('Test passed')
 ```
-<br>
-We can check with a different proposal
+`Test passed`
+
+We can check with a different proposal too
 
 ```python
 def binom_q(value, *args):
     return binom(3, .7).pmf(value)
 
 Q = bm.transition_matrix(binom_q)
-assert np.allclose(v @ Q, v)
+assert np.allclose(bm.pi @ P, bm.pi)
+print('Test passed')
 ```
-<br>
+`Test passed`
+
 
 ## Why the chain converge?
