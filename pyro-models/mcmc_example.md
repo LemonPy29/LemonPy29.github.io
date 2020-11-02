@@ -12,7 +12,7 @@ drawing random i.i.d samples from it. For example, the mean
 
 \\[
 \frac{1}{n}\sum_i f(X_i) \sim \textbf{E}(f(X))
-tag{1.1}
+\tag{1.1}
 \\]
 
 The law of the large numbers, ensure we'll get a decent estimation if enough
@@ -38,7 +38,7 @@ numerator, our problem is the evidence
 
 \\[
 \textbf{P}(X) = \int_0^{\infty}
-\frac{1}{1+\mu^2}\exp\left(-\frac{1}{2}\sum_{i=1}^{n} (\mu - x_i)^2\right)
+\frac{1}{1+\mu^2}\exp\left(-\frac{1}{2}\sum_{i=1}^{n} (\mu - x_i)^2\right)d\mu
 \tag{1.2}
 \\]
 
@@ -47,9 +47,9 @@ can imagine what could happen when there is a bunch of them.
 
 Given this problem, we're going to review the Markov Chain Monte Carlo
 algorithm, that allow us to approximate those distributions and sample from
-them. Even though MCMC is pretty old, still remains as the way to go resolve
-this problem and popular packages, such as facebook prophet, were develop using
-it.
+them. Even though MCMC is pretty old, still remains as the way to go to resolve
+this problem. Popular packages, such as facebook prophet, were developed using
+bayesian inference with MCMC.
 
 ## What is MCMC?
 
@@ -66,18 +66,21 @@ probability \\(\alpha\\).
 3. Accept the proposal with probability \\(\alpha(x,y)\\). If accepted, set
 \\(X_{n+1} = y\\) else \\(X_{n+1}=x\\)
 
-One of the earlier MCMC method it's called Hasting-Metropolis. For this 
+One of the earlier MCMC methods it's called Metropolis-Hasting. For this 
 particular algorithm, the \\(\alpha\\) is given by
 
 \\[
 \alpha(x,y) = \min\left(1,\frac{q(y,x)\pi(y)}{q(x,y)\pi(x)}\right)
+\tag{1.3}
 \\]
+
+One of the main advantages is we don't need to know the normalized density
+\\(\pi\\) because every constant gets cancel out in the quotient.
 
 We'll review more details about why and how MCMC works, but first let's take a
 look at the next example
 
 ## Toy example
-
 Suppose we want to apply the Metropolis-Hasting algorithm to sample from a
 distribution with finite support. This isn't the most likely case someone would
 use the algorithm but it's much easier to illustrate it on this way.
@@ -88,7 +91,7 @@ probability of jumping from \\(i\\) to \\(j\\) can be interpreted as picking
 
 \\[
 p_{ij}=\textbf{P}[X_{n+1}=i|X_n=j]=q(i,j)\alpha(i,j)
-\tag{1.3}
+\tag{1.4}
 \\]
 
 As the rows sum in total one, the simplest way to compute \\(p_{ii}\\) is through
@@ -96,7 +99,7 @@ the complement
 
 \\[
 p_{ii} = 1 - \sum_{i\neq j} p_{ij}
-\tag{1.4}
+\tag{1.5}
 \\]
 
 The whole matrix can be constructed with this code
@@ -114,7 +117,7 @@ def compute_transition_matrix(pi, q, size):
 <br>
 
 Suppose now we're trying to sample from \\(bin(n, p)\\) (state space
-\\(S=\{0,\ldots, n\}\\).
+\\(S=\{0,\ldots, n\}\\) )
 
 ```python
 class binom_mcmc:
@@ -132,7 +135,7 @@ class binom_mcmc:
     def transition_matrix(self, q=None):
 	if not q: q = self.unif_q
         return compute_transition_matrix(self._pi, q, self.n + 1)
-		     
+		
     def unif_q(self, *args):
 	return 1 / (self.n + 1)
 ```
@@ -161,7 +164,7 @@ If we take a closer look at the matrix \\(P\\) we can distinguish a pattern.
 Look for example at the second row which represents the probability of jumping
 from state 1 to another one.  As \\(p_{11}\\) is the higher probability on that
 row, staying at 1 is the most likely outcome. In contrast with jumping to the
-state 4 because \\(p_{14})\\ is the lowest probability there. That means that
+state 4 because \\(p_{14}\\) is the lowest probability there. That means that
 the chain will stay more in the state 1 and less in state 4. If we plot an
 histogram with the states visited, we will see more mass on 1, and in general,
 the shape of the histogram will coincide with the distribution \\(\pi=\(0.216,
@@ -187,5 +190,47 @@ print('Test passed')
 ```
 `Test passed`
 
+In the next section we'll try to understand more formally why the Markov Chain
+has as limit distribution the one we want
 
 ## Why the chain converge?
+
+Obviously, the chain doesn't converge by coincidence, it's constructed to do it
+so. In fact it's constructed asking for a stronger condition *detailed
+balanced* 
+
+\\[
+\pi(x)p(x,y)=\pi(y)p(y,x)
+\tag{1.6}
+\\]
+
+It can be interpreted as the probability of standing over a state \\(x\\) and
+then jumping to \\(y\\) it's equal to start at \\(y\\) and then jump to
+\\(x\\). It isn't hard to prove that detailed balanced implies the distribution
+is stationary. 
+
+On the particular case of MCMC, we need
+\\[
+\pi(x)q(x,y)\alpha(x,y) = \pi(y)q(y,x)\alpha(y,x)
+\tag{1.7}
+\\]
+
+Which can be seen as 
+
+\\[
+\frac{\alpha(x,y)}{\alpha(y,x)} = \frac{\pi(y)q(y,x)}{\pi(x)q(x,y)}
+\tag{1.8}
+\\]
+
+Any acceptance function should be chosen according to this equation. In the
+particular case of Metropolis-Hasting, we simple set \\(\alpha(x,y)=1\\) or
+\\(\alpha(y,x)=1\\) depending on the quotient on the left. If
+
+\\[
+\pi(x)q(x,y) > \pi(y)q(y,x)
+\\]
+
+Then \\(\alpha(y,x)=1\\) and \\(alpha(x,y) = \pi(y)q(y,x)/\pi(x)q(x,y)\\),
+else, the inverse. Of course, this can be rewritten as `(1.3)` . Even though this
+function is nothing fancy, still offers a good trade-off between exploring new
+states and staying at high density areas.
