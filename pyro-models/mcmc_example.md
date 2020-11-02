@@ -45,7 +45,7 @@ numerator, our problem is the evidence
 Which is an intractable integral. This is just to estimate one parameter, so we
 can imagine what could happen when there is a bunch of them.
 
-Given this problem, we're going to review the Markov Chain Monte Carlo
+Given this problem, we're going to review the Markov Chain Monte Carlo (MCMC)
 algorithm, that allow us to approximate those distributions and sample from
 them. Even though MCMC is pretty old, still remains as the way to go to resolve
 this problem. Popular packages, such as facebook prophet, were developed using
@@ -53,7 +53,7 @@ bayesian inference with MCMC.
 
 ## What is MCMC?
 
-There is several versions of MCMC, but in general the idea is to generate a
+There are several versions of MCMC, but in general the idea is to generate a
 Markov Chain whose stationary distribution is the one we want to sample
 from. 
 
@@ -74,16 +74,17 @@ particular algorithm, the \\(\alpha\\) is given by
 \tag{1.3}
 \\]
 
-One of the main advantages is we don't need to know the normalized density
-\\(\pi\\) because every constant gets cancel out in the quotient.
+One of the main advantages is we don't need to know a normalized version of the
+density \\(\pi\\) because every constant gets cancel out in the quotient.
 
 We'll review more details about why and how MCMC works, but first let's take a
 look at the next example
 
 ## Toy example
-Suppose we want to apply the Metropolis-Hasting algorithm to sample from a
-distribution with finite support. This isn't the most likely case someone would
-use the algorithm but it's much easier to illustrate it on this way.
+
+Suppose we want to apply MCMC to sample from a distribution with finite
+support. This isn't the most likely case someone would use the algorithm but
+it's much easier to illustrate it on this way.
 
 Let's compute the entries of the transition matrix.  If \\(i \neq j\\) the
 probability of jumping from \\(i\\) to \\(j\\) can be interpreted as picking
@@ -102,7 +103,7 @@ p_{ii} = 1 - \sum_{i\neq j} p_{ij}
 \tag{1.5}
 \\]
 
-The whole matrix can be constructed with this code
+Next we're going to construct the whole matrix for the particular case of MH.
 
 ```python
 def compute_transition_matrix(pi, q, size):
@@ -117,7 +118,7 @@ def compute_transition_matrix(pi, q, size):
 <br>
 
 Suppose now we're trying to sample from \\(bin(n, p)\\) (state space
-\\(S=\{0,\ldots, n\}\\) )
+\\(S=\{0,\ldots, n\}\\))
 
 ```python
 class binom_mcmc:
@@ -165,10 +166,10 @@ Look for example at the second row which represents the probability of jumping
 from state 1 to another one.  As \\(p_{11}\\) is the higher probability on that
 row, staying at 1 is the most likely outcome. In contrast with jumping to the
 state 4 because \\(p_{14}\\) is the lowest probability there. That means that
-the chain will stay more in the state 1 and less in state 4. If we plot an
-histogram with the states visited, we will see more mass on 1, and in general,
-the shape of the histogram will coincide with the distribution \\(\pi=\(0.216,
-0.432, 0.288, 0.064)\\)
+the chain will stay more time on the state 1 and less in the state 4. If we
+plot an histogram with the states visited, we will see more mass on 1, and in
+general, the shape of the histogram will coincide with the distribution
+\\(\pi=\(0.216, 0.432, 0.288, 0.064)\\)
 
 Let's verify if \\(\pi\\) is a stationary distribution for \\(P\\)
 
@@ -191,13 +192,12 @@ print('Test passed')
 `Test passed`
 
 In the next section we'll try to understand more formally why the Markov Chain
-has as limit distribution the one we want
+has as limit distribution the one we want.
 
 ## Why the chain converge?
 
-Obviously, the chain doesn't converge by coincidence, it's constructed to do it
-so. In fact it's constructed asking for a stronger condition *detailed
-balanced* 
+The Markov chain is constructed to fulfil a different condition, one sufficient
+but not necessary for the convergence. It's called *detailed balanced*
 
 \\[
 \pi(x)p(x,y)=\pi(y)p(y,x)
@@ -207,7 +207,9 @@ balanced*
 It can be interpreted as the probability of standing over a state \\(x\\) and
 then jumping to \\(y\\) it's equal to start at \\(y\\) and then jump to
 \\(x\\). It isn't hard to prove that detailed balanced implies the distribution
-is stationary. 
+is stationary. (Here we're missing a lot of details, for example the chain also
+needs to be aperiodic and irreducible. They can be consulted elsewhere and
+aren't that relevant to get a decent intuition on how the algorithm works)
 
 On the particular case of MCMC, we need
 \\[
@@ -224,13 +226,13 @@ Which can be seen as
 
 Any acceptance function should be chosen according to this equation. In the
 particular case of Metropolis-Hasting, we simple set \\(\alpha(x,y)=1\\) or
-\\(\alpha(y,x)=1\\) depending on the quotient on the left. If
+\\(\alpha(y,x)=1\\) depending on the quotient on the right. If
 
 \\[
 \pi(x)q(x,y) > \pi(y)q(y,x)
 \\]
 
-Then \\(\alpha(y,x)=1\\) and \\(alpha(x,y) = \pi(y)q(y,x)/\pi(x)q(x,y)\\),
+Then \\(\alpha(y,x)=1\\) and \\(\alpha(x,y) = \pi(y)q(y,x)/\pi(x)q(x,y)\\),
 else, the inverse. Of course, this can be rewritten as `(1.3)` . Even though this
 function is nothing fancy, still offers a good trade-off between exploring new
 states and staying at high density areas.
