@@ -3,7 +3,9 @@ layout: page
 title: Something about classes
 nav: false
 ---
+<link rel="stylesheet" href="/assets/css/main.css"/>
 
+## When should we use classes?
 Most of the library code we daily use come in form of classes. For example, any
 time we create a data frame, a numpy array or a pytorch module we're working
 with an instance, a particular example, of a class. Roughly speaking, we can
