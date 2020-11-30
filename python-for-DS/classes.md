@@ -1,5 +1,7 @@
 ---
-#TODO yml
+layout: page
+title: Something about classes
+nav: false
 ---
 
 Most of the library code we daily use come in form of classes. For example, any
