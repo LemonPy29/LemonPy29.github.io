@@ -12,5 +12,5 @@ code, mostly for python. Hopefully these tips can be useful to someone else
 too.
 
 ### Index
-* [Something about classes]()
+* [Something about classes](python-for-DS/classes.html)
 

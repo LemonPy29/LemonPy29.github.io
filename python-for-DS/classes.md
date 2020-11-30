@@ -26,6 +26,7 @@ def moment(p, mu, sig):
     ...
 ```
 
+<br>
 This pattern, of repeating code too much, it's a common sign that we are going
 on the wrong path and it's probably better to do something about it an try to
 generalize or wrap that code. In this case a class it's a good solution,
@@ -48,6 +49,7 @@ class Normal:
         ...
 ```
 
+<br>
 Now you can access `mu, sigma` as instance attributes and there is no longer
 the need to type those arguments for every function signature. 
 
@@ -66,6 +68,7 @@ def argmax(a, *args, **kwargs):
     ...
 ```
 
+<br>
 Instead of passing the argument `a` to every function, it would be better if
 all those functions are attached to the object `a`. We see this pattern in 
 popular libraries such as numpy or pandas. 
@@ -77,14 +80,14 @@ it.
 class MyObject(a):
      ...
 ```
-
+<br>
 Before going further we should stop to say that inheriting from a non-native
 object, that is, objects constructed in the `C` family for example, can
 sometimes be tricky an lead to some non-expected behaviors. If we check the
 numpy documentation, we'll see inherit from `np.ndarray` it's not so trivial
 and you have to follow some rules.
 
-### The dunder magic
+## The dunder magic
 
 In order to make the most out of classes we should talk a little bit about
 double under score methods, often called dunder's. These are methods that
