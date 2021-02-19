@@ -139,7 +139,7 @@ class BaseEstimator:
 We can use those methods on new classes, or use them as a base for a method
 on the children
 
-````python
+```python
 class LinearEstimator(BaseEstimator):
     ...
 
