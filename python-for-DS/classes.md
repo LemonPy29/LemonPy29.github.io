@@ -6,7 +6,7 @@ nav: false
 <link rel="stylesheet" href="/assets/css/main.css"/>
 
 Most of the library code we daily use come in form of classes. For example, any
-time we create a data frame, a numpy array or a pytorch `nn.Module`we're
+time we create a data frame, a numpy array or a pytorch `nn.Module` we're
 working with an instance, a particular example, of a class. Roughly speaking,
 we can see classes as templates or abstractions which can carry states and
 methods. Similar to functions, they can be useful tools to avoid duplicate
@@ -96,6 +96,7 @@ class Polynomial:
     def __call__(self, x):
         return sum(c * x**p for p, c in self.coefs.items())
 
+    @property
     def degree(self):
         ...
 
@@ -127,15 +128,89 @@ the sklearn API. At high level, we can think it as
 class BaseEstimator:
     ...
 
-    def fit(X, *args, **kwargs):
+    def fit(self, X, *args, **kwargs):
         ...
 
-    def predict(X, *args, **kwargs):
+    def predict(self, X, *args, **kwargs):
         ...
 
 ```
-We can use those methods on new classes, or use them as a base for method
+
+We can use those methods on new classes, or use them as a base for a method
 on the children
+
+````python
+class LinearEstimator(BaseEstimator):
+    ...
+
+    def fit(self, X, *arg, **kwargs):
+        super().fit(X, *args, **kwargs)
+        # do something else
+```
+
+With `super` we call methods of the parent class and any instance of the
+children can call parents methods, even if they are not defined explicitly on
+the children. 
+
+Even though sklearn objets share methods, it's very likely the `fit` method on
+a linear estimator is different from that method on a random forest.
+Nevertheless, we would like to have consistency accross classes, ensuring all
+of them implements certain methods. For that purpose, we have some help from
+the `abc` built-in module.
+
+```python
+from abc import ABCMeta, abstracmethod
+
+class BaseEstimator(metaclass=ABCMeta):
+    
+    @abstracmethod
+    def fit(self, **args, **kwargs):
+        ...
+```
+Classes with the ABC metaclass aren't meant to be instantiated by themselves.
+Instead they serve as interfaces to inherit from them. And they enforce to 
+every children to follow that interface
+
+```python
+class LinearEstimator(BaseEstimator):
+    # no fit method
+    ...
+
+# TypeError: Can't instantied child with abstract method fit 
+```
+
+Finally, we have Mixins. They don't have any special syntax, but still aren't 
+meant to be instantiated by their own. They serve to add functionality to an
+existing class by inheritance. Why it is not regular inheritance? At some 
+point it is, but one the main features of Mixins is they are some kind of
+agnostic respect to the extended class and in general they perform a generic
+operation such as login, timing or type checking. 
+
+Suppose for example, we have a framework with models but also with data
+structures, and maybe some kind of plot objects. We would like to implement a
+save method to store metadata, across all of our classes, but obviously we
+don't want to type that method for every one of them and there is no base class
+in common. 
+
+```python
+class SaveMixin:
+    def save(self, dir):
+        name = self.__class__.__name__
+        useful_metadata = super().metadata(format='json')
+        some_generic_save(useful_metadata, name, dir)
+
+class SomeEstimator(SaveMixin, BaseEstimator):
+      ...
+```
+
+We can see here a common implementation of a Mixin. They are usually parents
+along other classes, and can take advantage of that by invoking other parents 
+methods using `super` as in this example. 
+
+Although we could define elsewhere a save function that takes as an argument
+our object, this design can make life easier for a potential end user, because
+that function would probably mean another line of importing.
+
 
 ## The dunder magic
 
@@ -172,7 +247,6 @@ to the same method on `data`, which already implements it.
 In the python data model documentation we can find all the details and a full list 
 of the special, double score, methods. 
 
-
 ## when to avoid classes?
 
 Although classes are certainly useful, they're not always the way to go. Instantiate
@@ -183,7 +257,7 @@ method is `__init__`.  Many times the idea behind those is to store parameters
 or functions.  For example
 
 ```python
-class SomeFunc:
+class FuncAndGrad:
     def __init__(self, p):
         self.p = p
 
@@ -208,8 +282,12 @@ def somefunc(p):
     return func
 
 f = somefunc(4)
-f(1) # 0
-f.grad(1) # 4
+f(1) = 0
+f.grad(1) = 4
 ```
-Of course, sometimes is fine to define two-method classes. 
 
+Of course, it doesn't mean every two-methods class is bad or unnecesary, but we
+should think twice before creating one. Another good alternative for replacing
+the classes (that are maybe just containers) are the objects from the
+`collections` module. For example, `namedtuple` and `defaultdict` are great
+choices for this purpose. 
