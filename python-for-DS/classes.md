@@ -247,7 +247,7 @@ to the same method on `data`, which already implements it.
 In the python data model documentation we can find all the details and a full list 
 of the special, double score, methods. 
 
-## when to avoid classes?
+## When to avoid classes?
 
 Although classes are certainly useful, they're not always the way to go. Instantiate
 a class has its costs and at a times they end up making the code less readable.
