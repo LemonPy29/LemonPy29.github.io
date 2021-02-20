@@ -115,14 +115,16 @@ class MyObject(x):
 ```
 
 With this code we make clear our intention on expanding the functionality of
-the existing object `x`.
+the existing object `x`. In the following section we willtalk a little bit more
+about inheritance.
 
 
 ## Inheritance, abstract classes and mixins
 
 If now we have classes that share similar states and methods, we can factor
-that out in a base classes and then inherit from it. A familiar example is
-the sklearn API. At high level, we can think it as 
+that out in a base class and then inherit from it. We can think for example in
+the popular sklearn API. With that in mind, suppose there is a base class for
+all the models with fit and predict methods
 
 ```python
 class BaseEstimator:
@@ -137,26 +139,36 @@ class BaseEstimator:
 ```
 
 We can use those methods on new classes, or use them as a base for a method
-on the children
+on the children. For example,
 
 ```python
 class LinearEstimator(BaseEstimator):
     ...
 
-    def fit(self, X, *arg, **kwargs):
-        super().fit(X, *args, **kwargs)
-        # do something else
+le = LinearEstimator(**parameters)
+le.fit(X) # call the parent fit method
 ```
+Or we can wrap the parent method
+
+```python
+class OtherEstimator(BaseEstimator):
+    ...
+    
+    def predict(self, X, *args, **kwargs):
+        result = super().predict(X, *args, **kwargs)
+        # do something else
+        return result
+```      
 
 With `super` we call methods of the parent class and any instance of the
 children can call parents methods, even if they are not defined explicitly on
-the children. 
+the children as we saw before.
 
-Even though sklearn objets share methods, it's very likely the `fit` method on
-a linear estimator is different from that method on a random forest.
-Nevertheless, we would like to have consistency accross classes, ensuring all
-of them implements certain methods. For that purpose, we have some help from
-the `abc` built-in module.
+Although sklearn objects share methods, it's very likely the `fit` method on a
+linear estimator is different from the one on a random forest.  Nevertheless,
+we would like to have consistency accross classes, ensuring all of them
+implement certain methods. For that purpose, we have some help from the `abc`
+built-in module.
 
 ```python
 from abc import ABCMeta, abstracmethod
@@ -168,7 +180,7 @@ class BaseEstimator(metaclass=ABCMeta):
         ...
 ```
 Classes with the ABC metaclass aren't meant to be instantiated by themselves.
-Instead they serve as interfaces to inherit from them. And they enforce to 
+Instead they serve as interfaces to inherit from them. They enforce to 
 every children to follow that interface
 
 ```python
@@ -176,7 +188,8 @@ class LinearEstimator(BaseEstimator):
     # no fit method
     ...
 
-# TypeError: Can't instantied child with abstract method fit 
+le = LinearEstimator(**params)
+# TypeError: Can't instantiate child with abstract method fit 
 ```
 
 Finally, we have Mixins. They don't have any special syntax, but still aren't 
@@ -188,9 +201,9 @@ operation such as login, timing or type checking.
 
 Suppose for example, we have a framework with models but also with data
 structures, and maybe some kind of plot objects. We would like to implement a
-save method to store metadata, across all of our classes, but obviously we
-don't want to type that method for every one of them and there is no base class
-in common. 
+save method to store metadata, across of all of our classes, but obviously we
+don't want to type that method for every one of them. Also, there is no base
+class in common. What about creating a class for this? 
 
 ```python
 class SaveMixin:
@@ -203,9 +216,9 @@ class SomeEstimator(SaveMixin, BaseEstimator):
       ...
 ```
 
-We can see here a common implementation of a Mixin. They are usually parents
+We can see here a common implementation of a Mixin. They usually are parents
 along other classes, and can take advantage of that by invoking other parents 
-methods using `super` as in this example. 
+methods using `super` too. 
 
 Although we could define elsewhere a save function that takes as an argument
 our object, this design can make life easier for a potential end user, because
@@ -252,9 +265,46 @@ of the special, double score, methods.
 Although classes are certainly useful, they're not always the way to go. Instantiate
 a class has its costs and at a times they end up making the code less readable.
 
-A good example of class overuse are two or three method classes where one
-method is `__init__`.  Many times the idea behind those is to store parameters
-or functions.  For example
+A good example of class overuse are classes that have two methods, a one of
+them is `__init__` (or single-method classes for short).  Many times the idea
+behind those is to store parameters or functions. For example
+
+```python
+import pandas as pd
+
+class Reader:
+    def __init__(self, delimiter):
+        self.delimiter = delimiter
+
+    def read_csv(self, dir, **kwargs):
+        return pd.read_csv(dir, sep=self.delimiter, **kwargs)
+```
+
+A much better approach is the use of closures
+
+```python
+def reader(delimiter):
+    def read_csv(dir, **kwargs):
+        return pd.read_csv(dir, sep=delimiter, **kwargs)
+    return read_csv
+ 
+reader_semicolon = reader(';')
+reader_semicolon('path/to/my/csv')
+```
+
+This example is kind of silly. It is actually much better just to pass the
+parameter that we're trying to store in this case. We've picked it to
+illustrate how people often go crazy wrapping everything in classes. If for
+some reason we really want to set or store one function parameter, a nice
+solution is to use `partial` from the `functools` built-in module.
+
+```python
+from functools import partial
+
+reader = partial(pd.read_csv, sep=';')
+```
+
+Here we have another example of replacing functions with closures
 
 ```python
 class FuncAndGrad:
@@ -267,7 +317,7 @@ class FuncAndGrad:
     def grad(self, x):
         return p * x**(self.p-1)
 ```
-Which can be replaced with a closure
+Instead we can write
 
 ```python
 def somefunc(p):
@@ -286,8 +336,10 @@ f(1) = 0
 f.grad(1) = 4
 ```
 
-Of course, it doesn't mean every two-methods class is bad or unnecesary, but we
-should think twice before creating one. Another good alternative for replacing
-the classes (that are maybe just containers) are the objects from the
-`collections` module. For example, `namedtuple` and `defaultdict` are great
-choices for this purpose. 
+Here we have attached a function to another function, but there is no problem
+on attaching variables. Of course, this doesn't mean every of this short
+classes is bad or unnecesary, but we should think twice before creating one.
+
+Another good alternative for replacing the classes, that maybe are there just
+for storing data, are the objects from the `collections` module. For example,
+`namedtuple` and `defaultdict` are great choices for this purpose. 
