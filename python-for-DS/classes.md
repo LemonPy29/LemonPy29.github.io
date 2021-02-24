@@ -33,7 +33,7 @@ This pattern, of repeating code too much, it's a common sign that we are going
 on the wrong path and it's probably better to do something about it an try to
 generalize or wrap that code. In this case a class it's a good solution,
 because, among other things, we no longer need to type the arguments again and
-again, and can simply define those as class attributes. 
+again, and can simply define those as instance attributes. 
 
 ```python
 class Normal:
@@ -115,7 +115,7 @@ class MyObject(x):
 ```
 
 With this code we make clear our intention on expanding the functionality of
-the existing object `x`. In the following section we willtalk a little bit more
+the existing object `x`. In the following section we'll talk a little bit more
 about inheritance.
 
 
@@ -166,7 +166,7 @@ the children as we saw before.
 
 Although sklearn objects share methods, it's very likely the `fit` method on a
 linear estimator is different from the one on a random forest.  Nevertheless,
-we would like to have consistency accross classes, ensuring all of them
+we would like to have consistency across classes, ensuring all of them
 implement certain methods. For that purpose, we have some help from the `abc`
 built-in module.
 
@@ -179,9 +179,10 @@ class BaseEstimator(metaclass=ABCMeta):
     def fit(self, **args, **kwargs):
         ...
 ```
+
 Classes with the ABC metaclass aren't meant to be instantiated by themselves.
-Instead they serve as interfaces to inherit from them. They enforce to 
-every children to follow that interface
+Instead they serve as interfaces to inherit from them. They enforce every
+children to follow that interface
 
 ```python
 class LinearEstimator(BaseEstimator):
@@ -192,12 +193,12 @@ le = LinearEstimator(**params)
 # TypeError: Can't instantiate child with abstract method fit 
 ```
 
-Finally, we have Mixins. They don't have any special syntax, but still aren't 
-meant to be instantiated by their own. They serve to add functionality to an
-existing class by inheritance. Why it is not regular inheritance? At some 
-point it is, but one the main features of Mixins is they are some kind of
-agnostic respect to the extended class and in general they perform a generic
-operation such as login, timing or type checking. 
+Finally, we have Mixins. They don't have any special syntax, but still aren't
+meant to be instantiated by their own. Their aim is to add functionality to an
+existing class by inheritance. Why is it not regular inheritance? At some point
+it is, but one the main feature of Mixins is they are agnostic respect to the
+extended class and in general they perform a generic operation such as login,
+timing or type checking. 
 
 Suppose for example, we have a framework with models but also with data
 structures, and maybe some kind of plot objects. We would like to implement a
@@ -221,7 +222,7 @@ along other classes, and can take advantage of that by invoking other parents
 methods using `super` too. 
 
 Although we could define elsewhere a save function that takes as an argument
-our object, this design can make life easier for a potential end user, because
+our objects, this design can make life easier for a potential end user, because
 that function would probably mean another line of importing.
 
 
@@ -231,7 +232,7 @@ In order to make the most out of classes we should talk a little bit about
 double under score methods, often called dunder's. These are methods that
 implement special protocols or behaviors. Maybe the most familiar is the
 `__init__` method which is generally called when we create a new instance of
-the class, so can be considered as kind of a constructor.  With `__init__`, we
+the class, so can be considered kind of a constructor.  With `__init__`, we
 can see that usually, although it's possible, we don't call dunder's
 explicitly. 
 
@@ -263,9 +264,9 @@ of the special, double score, methods.
 ## When to avoid classes?
 
 Although classes are certainly useful, they're not always the way to go. Instantiate
-a class has its costs and at a times they end up making the code less readable.
+a class has its costs and sometimes they end up making the code less readable.
 
-A good example of class overuse are classes that have two methods, a one of
+A good example of class overuse are classes that have two methods and one of
 them is `__init__` (or single-method classes for short).  Many times the idea
 behind those is to store parameters or functions. For example
 
@@ -340,6 +341,15 @@ Here we have attached a function to another function, but there is no problem
 on attaching variables. Of course, this doesn't mean every of this short
 classes is bad or unnecesary, but we should think twice before creating one.
 
-Another good alternative for replacing the classes, that maybe are there just
+Another good alternative for replacing the classes that maybe are there just
 for storing data, are the objects from the `collections` module. For example,
 `namedtuple` and `defaultdict` are great choices for this purpose. 
+
+## Final Words
+
+Classes are a good tool for write reusable and readable code. We maybe don't
+write them explicitly on our daily notebook, but it's a good idea to have a
+decent understanding on what they are and how they work. It can be while
+reading documentation or just some colleague that shared a repository with you
+but there will be situations where you will need to understand or modify code
+containing classes. 
